@@ -99,7 +99,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                         <label for="payment_status"><?php echo lang("Localize.payment") ?> <?php echo lang("Localize.status") ?> <abbr class="required" title="Required field">*</abbr></label>
                         <select class="form-select" name="payment_status" id="payment_status" required>
                             <option value="paid"><?php echo lang("Localize.paid") ?></option>
-                            <option value="partial"><?php echo lang("Localize.partial") ?></option>
+                            <!-- <option value="partial"><?php //echo lang("Localize.partial") ?></option> -->
                             <option value="unpaid"><?php echo lang("Localize.unpaid") ?></option>
                         </select>
                     </div>

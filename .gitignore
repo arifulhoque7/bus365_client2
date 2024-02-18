@@ -130,3 +130,5 @@ _modules/*
 # Dynamic localize strings
 app/Language/*
 !app/Language/.gitkeep
+
+*.zip
