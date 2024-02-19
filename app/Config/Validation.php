@@ -1563,7 +1563,59 @@ class Validation
 
     ];
 
+    public $sms =   [
 
+        'url'     => 'required',
+        'email'     => 'required',
+        'sender_id'     => 'required',
+        'api_key'     => 'required',
+    ];
+
+    public $sms_errors = [
+        'url' => [
+            'required'    => 'Url or Endpoint is required',
+        ],
+
+        'email' => [
+            'required'    => 'Email is required',
+        ],
+
+        'sender_id' => [
+            'required'    => 'Sender ID User is required',
+        ],
+
+        'api_key' => [
+            'required'    => 'Api Key is required',
+
+        ]
+    ];
+
+    public $sms_template =   [
+
+        'description'     => 'required',
+    ];
+
+    public $sms_template_errors = [
+        'description' => [
+            'required'    => 'SMS Body is required',
+        ],
+    ];
+
+    public $send_sms =   [
+
+        'template_id'     => 'required',
+        "mobile" =>'required',
+    ];
+
+    public $send_sms_errors = [
+        'template_id' => [
+            'required'    => 'SMS Template is required',
+        ],
+        'mobile' => [
+            'required'    => 'Mobile Number is required',
+        ],
+    ];
+    
     public $subscrib = [
         'email'     => 'required',
 

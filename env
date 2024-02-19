@@ -20,7 +20,7 @@ CI_ENVIRONMENT = production
 # APP
 #--------------------------------------------------------------------
 
-app.baseURL = 'http://localhost:8080/bus365/'
+app.baseURL = 'http://localhost/bus365/'
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'

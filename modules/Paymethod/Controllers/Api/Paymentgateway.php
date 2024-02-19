@@ -13,6 +13,10 @@ use Modules\Paymethod\Models\PaystackModel;
 use Modules\Paymethod\Models\RazorModel;
 use Modules\Paymethod\Models\SslCommerzModel;
 use Modules\Paymethod\Models\StripeModel;
+use Modules\Paymethod\Models\MpesaModel;
+use Modules\Paymethod\Libraries\Mpesa\Mpesa;
+use Modules\Website\Models\SmsModel;
+use Modules\Website\Libraries\SmsLibrary;
 use \stdClass;
 
 class Paymentgateway extends BaseController
@@ -26,7 +30,10 @@ class Paymentgateway extends BaseController
     protected $paypalModel;
     protected $sslModel;
     protected $flutterWaveModel;
+    protected $MpesaModel;
     protected $db;
+    protected $smsLibrary;
+    protected $smsModel;  
 
     public function __construct()
     {
@@ -37,6 +44,9 @@ class Paymentgateway extends BaseController
         $this->paypalModel = new PaypalModel();
         $this->sslModel = new SslCommerzModel;
         $this->flutterWaveModel = new FlutterWave;
+        $this->MpesaModel = new MpesaModel;
+        $this->smsLibrary = new SmsLibrary();
+        $this->smsModel = new SmsModel();
 
         $this->db = \Config\Database::connect();
     }
@@ -364,6 +374,147 @@ class Paymentgateway extends BaseController
         }
     }
 
+    public function mpesa()
+    {
+        $paymentGatewayStatus = $this->paymentGatewayModel->where('status', 1)->find(7);
+
+        if (!empty($paymentGatewayStatus)) {
+
+            $getPayData = $this->MpesaModel->first();
+
+            if (!empty($getPayData)) {
+
+                if ($getPayData->environment == 1) {
+
+                    $data = [
+                        'status' => "success",
+                        'response' => 200,
+                        'data' => [
+                            'live_consumer_key' => $getPayData->live_consumer_key,
+                            'live_consumer_secret' => $getPayData->live_consumer_secret,
+                            'live_shortcode' => $getPayData->live_shortcode,
+                            'environment' => "Live"
+                        ],
+                    ];
+
+                    return $this->response->setJSON($data);
+                } else {
+
+                    $data = [
+                        'status' => "success",
+                        'response' => 200,
+                        'data' => [
+                            'test_consumer_key' => $getPayData->test_consumer_key,
+                            'test_consumer_secret' => $getPayData->test_consumer_secret,
+                            'test_shortcode' => $getPayData->test_shortcode,
+                            'environment' => "Test"
+                        ],
+                    ];
+
+                    return $this->response->setJSON($data);
+                }
+            } else {
+                $data = [
+                    'message' => "No Credential found for Mpesa",
+                    'status' => "failed",
+                    'response' => 204,
+                ];
+
+                return $this->response->setJSON($data);
+            }
+        } else {
+
+            $data = [
+                'message' => "Mpesa is Disable in System",
+                'status' => "failed",
+                'response' => 204,
+            ];
+
+            return $this->response->setJSON($data);
+        }
+    }
+    public function mpesa_pay(){
+        $paymentGatewayStatus = $this->paymentGatewayModel->where('status', 1)->find(7);
+
+        $phone  = $this->request->getVar('phone');
+        $amount  = $this->request->getVar('amount');
+        // initialize Mpesa Settings
+        if (!empty($paymentGatewayStatus)) {
+
+            $getPayData = $this->MpesaModel->first();
+
+            if (!empty($getPayData)) {
+
+                if ($getPayData->environment == 1) {
+                    $pesa = new Mpesa($getPayData->live_consumer_key, $getPayData->live_consumer_secret, $getPayData->live_shortcode,$getPayData->test_passkey,$getPayData->test_callback_url,$phone,$amount);
+                } else {
+                    $pesa = new Mpesa($getPayData->test_consumer_key, $getPayData->test_consumer_secret, $getPayData->test_shortcode,$getPayData->live_passkey,$getPayData->live_callback_url,$phone,$amount);
+                }
+                $ResponseCode=$pesa->stk_push();
+                
+                if($ResponseCode==1){
+                    $data = [
+                        'message' => 'Please Enter your Mpesa Pin Number.',
+                        'status' => "Success",
+                        'response' => 200,
+                    ];
+                
+                }else{
+                    $data = [
+                        'message' => $ResponseCode,
+                        'status' => "failed",
+                        'response' => 204,
+                    ]; 
+                }
+            }
+        }
+        return $this->response->setJSON($data);
+    }
+    
+    public function mpesa_callback(){
+       //dd('dsadasdsad');
+        header("Content-Type: application/json");
+        $stkCallbackResponse = file_get_contents('php://input');
+        $data = json_decode($stkCallbackResponse);
+
+        $MerchantRequestID = $data->Body->stkCallback->MerchantRequestID;
+        $CheckoutRequestID = $data->Body->stkCallback->CheckoutRequestID;
+        $ResultCode = $data->Body->stkCallback->ResultCode;
+        $ResultDesc = $data->Body->stkCallback->ResultDesc;
+        $Amount = $data->Body->stkCallback->CallbackMetadata->Item[0]->Value;
+        $TransactionId = $data->Body->stkCallback->CallbackMetadata->Item[1]->Value;
+        $UserPhoneNumber = $data->Body->stkCallback->CallbackMetadata->Item[4]->Value;
+        if ($ResultCode == 0) {
+            $this->db      = db_connect();
+            $data=array(
+                'MerchantRequestID'=>$MerchantRequestID,
+                'CheckoutRequestID'=>$CheckoutRequestID,
+                'ResultCode'=>$ResultCode,
+                'Amount'=>$Amount,
+                'MpesaReceiptNumber'=>$TransactionId,
+                'PhoneNumber'=>$UserPhoneNumber
+            );
+            $this->db->table('transactions')->insert($data);
+            // $sms_settings = $this->smsModel->first();
+            // $body = 'Payment Amount: '.$Amount. 'Transection id: '.$TransactionId;
+            // $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,$UserPhoneNumber,$body,$sms_settings->api_key);
+            
+            $data = [
+                'message' => 'Payment Successfully',
+                'status' => "Success",
+                'response' => 200,
+            ];
+            return $this->response->setJSON($data);
+        }
+        $data = [
+            'message' => $ResultDesc,
+            'status' => "failed",
+            'response' => 204,
+        ];
+
+        return $this->response->setJSON($data);
+       
+    }
     public function sslCommerz()
     {
         $paymentGatewayStatus = $this->paymentGatewayModel->where('status', 1)->find(5);
@@ -508,4 +659,5 @@ class Paymentgateway extends BaseController
         $redirectUrl = $base . '?' .  http_build_query($param);
         return redirect()->to($redirectUrl);
     }
+
 }

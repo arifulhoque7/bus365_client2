@@ -67,4 +67,44 @@ class PaymethodValidation extends Validation
             'integer' => 'Invalid environment type',
         ]
     ];
+
+    public $mpesa =   [
+        'live_consumer_key'  => 'required',
+        'live_consumer_secret'  => 'required',
+        'live_shortcode'  => 'required|integer',
+        'test_consumer_key'  => 'required',
+        'test_consumer_secret'  => 'required',
+        'test_shortcode'  => 'required|integer',
+        'environment'  => 'required',
+    ];
+
+    public $mpesa_errors = [
+        'live_consumer_key' => [
+            'required'    => 'Live Consumer Key is required',
+        ],
+
+        'live_consumer_secret' => [
+            'required'    => 'Consumer Secret password is required',
+        ],
+
+        'live_shortcode' => [
+            'required' => 'Shortcode is required',
+            'integer' => 'Invalid Shortcode type',
+        ],
+        'test_consumer_key' => [
+            'required'    => 'Live Consumer Key is required',
+        ],
+
+        'test_consumer_secret' => [
+            'required'    => 'Consumer Secret password is required',
+        ],
+
+        'test_shortcode' => [
+            'required' => 'Shortcode is required',
+            'integer' => 'Invalid Shortcode type',
+        ],
+        'environment' => [
+            'required'    => 'Environment is required',
+        ],
+    ];
 }

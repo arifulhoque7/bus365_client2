@@ -53,6 +53,9 @@
                                             
                                         <?php elseif (($value->name == "flutterwave") && ($value->id == 6)) : ?>
                                             <a href="<?= base_url(route_to('new-flutterwave')) ?>" class="btn btn-sm btn-primary text-white" title="<?php echo lang("Localize.details") ?>"><i class="fas fa-bars"></i></a>
+
+                                        <?php elseif (($value->name == "mpesa") && ($value->id == 7)) : ?>
+                                            <a href="<?= base_url(route_to('new-mpesa')) ?>" class="btn btn-sm btn-primary text-white" title="<?php echo lang("Localize.details") ?>"><i class="fas fa-bars"></i></a>
                                             
                                         <?php else : ?>
                                             <a href="<?= base_url(route_to('new-razor')) ?>" class="btn btn-sm btn-primary text-white" title="<?php echo lang("Localize.details") ?>"><i class="fas fa-bars"></i></a>

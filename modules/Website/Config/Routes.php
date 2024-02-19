@@ -21,6 +21,24 @@ $routes->group('modules/backend/emailsettings', ["filter" => "cors", "namespace"
     $routes->get('', 'Email::subscribeIndex', ['as' => 'index-subscribe']);
     $routes->delete('(:segment)', 'Email::subscribedelete/$1', ['as' => 'delete-subscribe']);
 });
+$routes->group('modules/backend/smssettings', ["filter" => "cors", "namespace" => "\Modules\Website\Controllers"], function ($routes) {
+    $routes->get('new', 'Sms::new', ['as' => 'new-sms']);
+    $routes->post('', 'Sms::create', ['as' => 'create-sms']);
+    $routes->get('(:segment)/edit', 'Sms::edit/$1', ['as' => 'edit-sms']);
+    $routes->put('(:segment)', 'Sms::update/$1', ['as' => 'update-sms']);
+    $routes->delete('(:segment)', 'Sms::delete/$1', ['as' => 'delete-sms']);
+});
+
+$routes->group('modules/backend/smstemplate', ["filter" => "cors", "namespace" => "\Modules\Website\Controllers"], function ($routes) {
+    $routes->get('new', 'SmsTemplate::new',['as' => 'new-smstemplate']);
+    $routes->post('', 'SmsTemplate::create',['as' => 'create-smstemplate']);
+    $routes->get('', 'SmsTemplate::index',['as' => 'index-smstemplate']);
+    $routes->get('(:segment)/edit', 'SmsTemplate::edit/$1',['as' => 'edit-smstemplate']);
+    $routes->put('(:segment)', 'SmsTemplate::update/$1',['as' => 'update-smstemplate']);
+    $routes->delete('(:segment)', 'SmsTemplate::delete/$1',['as' => 'delete-smstemplate']);
+    $routes->get('send_sms_view', 'SmsTemplate::send_sms_view',['as' => 'send-sms-view-smstemplate']);
+    $routes->post('send_sms', 'SmsTemplate::sms_send',['as' => 'send-sms-smstemplate']);
+});
 
 $routes->group('modules/backend/socialmedias', ["filter" => "cors", "namespace" => "\Modules\Website\Controllers"], function ($routes) {
     $routes->get('new', 'Socialmedia::new', ['as' => 'new-socialmedia']);
@@ -49,4 +67,8 @@ $routes->group('modules/api/v1/website/emails', ["filter" => "cors", "namespace"
     $routes->post('subscrib', 'Email::suibscrib');
     $routes->post('check/email/pass', 'Email::chekckEmailForgetPass');
     $routes->post('reset/pass', 'Email::confirmResetPassword');
+});
+
+$routes->group('modules/api/v1/website/sms', ["filter" => "cors", "namespace" => "\Modules\Website\Controllers\Api"], function ($routes) {
+    $routes->post('send_sms', 'Sms::send_sms');
 });

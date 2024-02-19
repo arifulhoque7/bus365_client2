@@ -59,6 +59,12 @@ $routes->group('modules/backend/sslcommerz', ["filter" => "cors", "namespace" =>
     $routes->get('(:segment)/edit', 'SslCommerz::edit/$1', ['as' => 'edit-sslcommerz']);
     $routes->put('(:segment)', 'SslCommerz::update/$1', ['as' => 'update-sslcommerz']);
 });
+$routes->group('modules/backend/mpesa', ["filter" => "cors", "namespace" => "\Modules\Paymethod\Controllers"], function ($routes) {
+    $routes->get('new', 'Mpesa::new', ['as' => 'new-mpesa']);
+    $routes->post('', 'Mpesa::create', ['as' => 'create-mpesa']);
+    $routes->get('(:segment)/edit', 'Mpesa::edit/$1', ['as' => 'edit-mpesa']);
+    $routes->put('(:segment)', 'Mpesa::update/$1', ['as' => 'update-mpesa']);
+});
 
 $routes->group('modules/api/v1/paymethods', ["filter" => "cors", "namespace" => "\Modules\Paymethod\Controllers\Api"], function ($routes) {
     $routes->get('', 'Paymentgateway::paymentGateway');
@@ -67,6 +73,13 @@ $routes->group('modules/api/v1/paymethods', ["filter" => "cors", "namespace" => 
     $routes->get('stripe', 'Paymentgateway::stripe');
     $routes->get('razor', 'Paymentgateway::razor');
     $routes->get('flutterwave', 'Paymentgateway::flutterWave');
+    $routes->get('mpesa', 'Paymentgateway::mpesa');
+
+    $routes->group('mpesa', function ($routes) {
+        $routes->post('mpesa_pay', 'Paymentgateway::mpesa_pay');
+        $routes->post('mpesa-callback', 'Paymentgateway::mpesa_callback');
+        // $routes->post('register_url', 'Paymentgateway::register_url');
+    });
 
     $routes->group('sslcommerz', function ($routes) {
         $routes->post('', 'Paymentgateway::sslCommerz');
