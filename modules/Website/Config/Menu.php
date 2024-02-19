@@ -345,7 +345,20 @@
                     </a>
                 </li>
             <?php endif ?>
-
+            <?php if ($rolepermissionLibrary->read("sms") == true) : ?>
+                <li class="<?php echo $menuname == "smssettings" && $submenupath == "new" ? "mm-active" : ""  ?>">
+                    <a href="<?php echo base_url(route_to('new-sms')) ?>">
+                        <?php echo lang("Localize.sms_gateway_settings") ?>
+                    </a>
+                </li>
+            <?php endif ?>
+            <?php if ($rolepermissionLibrary->read("sms_template") == true) : ?>
+                <li class="<?php echo $menuname == "smstemplate" ? "mm-active" : ""  ?>">
+                    <a href="<?php echo base_url(route_to('index-smstemplate')) ?>">
+                        <?php echo lang("Localize.sms_template") ?>
+                    </a>
+                </li>
+            <?php endif ?>
             <?php if ($rolepermissionLibrary->read("factory_reset") == true || true) : ?>
                 <li>
                     <a href="<?php echo base_url(route_to('factory-reset')) ?>">
