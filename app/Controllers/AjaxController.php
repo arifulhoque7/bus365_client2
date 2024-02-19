@@ -91,8 +91,11 @@ class AjaxController extends BaseController
         }
 
         if ($type == "mobile") {
-            $userdetail = $this->userModel->join('user_details', 'user_details.user_id = users.id', 'left')->where('login_mobile', $segment)->first();
+            $userdetail = $this->userModel
+            ->select('users.*,user_details.*')
+            ->join('user_details', 'user_details.user_id = users.id', 'left')->where('login_mobile', $segment)->first();
         }
+        // var_dump($userdetail);exit;
 
         if (empty($userdetail)) {
             $data = [

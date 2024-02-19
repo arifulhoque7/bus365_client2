@@ -592,7 +592,7 @@ class Validation
         'first_name' => 'required|string',
         'id_type' => 'permit_empty|string',
         'id_number' => 'permit_empty|string|is_unique[user_details.id_number,id,{id}]',
-        'country_id' => 'required'
+        //'country_id' => 'required'
     ];
     public $userDetail_errors = [
         'first_name' => [
@@ -601,9 +601,9 @@ class Validation
         'id_number' => [
             'is_unique' => 'This ID number is associated with an account'
         ],
-        'country_id' => [
-            'required'    => 'Country name is required',
-        ],
+        // 'country_id' => [
+        //     'required'    => 'Country name is required',
+        // ],
 
     ];
 
