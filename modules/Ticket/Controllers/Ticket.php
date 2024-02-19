@@ -894,10 +894,12 @@ class Ticket extends BaseController
         return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());
     }
 
-    public function userCheck($login_email, $login_mobile)
+    public function userCheck($login_email = null, $login_mobile)
     {
         $userid = null;
-        $evalue = $this->userModel->where('login_email', $login_email)->findAll();
+        if(empty($login_email)){
+            $evalue = $this->userModel->where('login_email', $login_email)->findAll();
+        }
         $mvalue = $this->userModel->where('login_mobile', $login_mobile)->findAll();
 
         if (!empty($evalue) || !empty($mvalue)) {
@@ -942,7 +944,7 @@ class Ticket extends BaseController
                     "last_name" => $this->request->getVar('last_name'),
                     "id_type" => $this->request->getVar('id_type') ?: null,
                     "id_number" => $this->request->getVar('id_number') ?: null,
-                    "country_id" => $this->request->getVar('country_id'),
+                    //"country_id" => $this->request->getVar('country_id'),
                 );
 
                 if ($this->validation->run($validdata, 'userDetail')) {
@@ -951,11 +953,11 @@ class Ticket extends BaseController
                         "first_name" => $this->request->getVar('first_name'),
                         "last_name" => $this->request->getVar('last_name'),
                         "id_type" => $this->request->getVar('id_type') ?: null,
-                        "country_id" => $this->request->getVar('country_id'),
+                        "country_id" => $this->request->getVar('country_id') ?? null,
                         "id_number" => $this->request->getVar('id_number') ?: null,
-                        "address" => $this->request->getVar('address'),
-                        "city" => $this->request->getVar('city'),
-                        "zip_code" => $this->request->getVar('zip_code')
+                        "address" => $this->request->getVar('address') ?: null,
+                        "city" => $this->request->getVar('city') ?: null,
+                        "zip_code" => $this->request->getVar('zip_code') ?: null,
                     );
 
                     $this->userDetailModel->insert($data);
@@ -1230,10 +1232,10 @@ class Ticket extends BaseController
         }
 
 
-        $login_email = $this->request->getVar('login_email');
+        $login_email = $this->request->getVar('login_email') ?: null;
         $login_mobile = $this->request->getVar('login_mobile');
 
-        $userid = $this->userCheck($login_email, $login_mobile);
+        $userid = $this->userCheck($login_email = null, $login_mobile);
 
         $loginUserId = $this->session->get('user_id');
 

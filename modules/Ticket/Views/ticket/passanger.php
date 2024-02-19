@@ -5,9 +5,9 @@
     </div>
     
     <div class="col-4 form-group">
-        <label for="login_email"><?php echo lang("Localize.email") ?> <abbr class="required" title="Required field">*</abbr></label>
+        <label for="login_email"><?php echo lang("Localize.email") ?> </label>
         <div class="inline-loader-wrapper">
-            <input type="email" name="login_email" id="login_email" class="form-control" value="<?php echo old('login_email') ?>" placeholder="<?php echo lang("Localize.email") ?>" aria-label="Email" required>
+            <input type="email" name="login_email" id="login_email" class="form-control" value="<?php echo old('login_email') ?>" placeholder="<?php echo lang("Localize.email") ?>" aria-label="Email">
         </div>
     </div>
     
@@ -35,32 +35,32 @@
 </div>
 
 <div class="row mb-2">
-    <div class="col-4 form-group">
-        <label for="country_id"><?php echo lang("Localize.country_name") ?> <abbr class="required" title="Required field">*</abbr></label>
+    <!-- <div class="col-4 form-group">
+        <label for="country_id"><?php //echo lang("Localize.country_name") ?> <abbr class="required" title="Required field">*</abbr></label>
         <select class="form-select" name="country_id" id="country_id" required>
             <option value="">None</option>
     
-            <?php foreach ($country as $countryvalue) : ?>
-                <option value="<?php echo $countryvalue->id ?>"><?php echo $countryvalue->name ?></option>
-            <?php endforeach ?>
+            <?php //foreach ($country as $countryvalue) : ?>
+                <option value="<?php //echo $countryvalue->id ?>"><?php //echo $countryvalue->name ?></option>
+            <?php //endforeach ?>
     
         </select>
-    </div>
+    </div> -->
     
-    <div class="col-4 form-group">
-        <label for="city mt-2"><?php echo lang("Localize.city_name") ?> </label>
-        <input type="text" name="city" class="form-control" id="city" value="<?php echo old('city') ?>" placeholder="City Name" aria-label="City Name">
-    </div>
+    <!-- <div class="col-4 form-group">
+        <label for="city mt-2"><?php //echo lang("Localize.city_name") ?> </label>
+        <input type="text" name="city" class="form-control" id="city" value="<?php //echo old('city') ?>" placeholder="City Name" aria-label="City Name">
+    </div> -->
     
-    <div class="col-4 form-group">
-        <label for="zip_code"><?php echo lang("Localize.zip_code") ?> </label>
-        <input type="text" name="zip_code" class="form-control" id="zip_code" value="<?php echo old('zip_code') ?>" placeholder="Zip Code" aria-label="Zip Code">
-    </div>
+    <!-- <div class="col-4 form-group">
+        <label for="zip_code"><?php //echo lang("Localize.zip_code") ?> </label>
+        <input type="text" name="zip_code" class="form-control" id="zip_code" value="<?php //echo old('zip_code') ?>" placeholder="Zip Code" aria-label="Zip Code">
+    </div> -->
 </div>
 
 <div class="row">
     <div class="col-12 form-group">
-        <label for="address"><?php echo lang("Localize.address") ?> <abbr class="required" title="Required field">*</abbr></label>
+        <label for="address"><?php echo lang("Localize.address") ?></label>
         <textarea class="form-control" name="address" id="address" rows="3" required><?php echo old('address') ?></textarea>
     </div>
 </div>

@@ -127,8 +127,8 @@ $("#login_mobile").focusout(function () {
             if (result.response == 200) {
 
                 userdetail = JSON.parse(result.data);
-                console.log(userdetail);
-                $.each(userdetail, function (index, value) {
+                // console.log(userdetail);
+                // $.each(userdetail, function (index, value) {
 
                     $("#last_name").val(value.last_name);
                     $("#first_name").val(value.first_name);
@@ -136,13 +136,13 @@ $("#login_mobile").focusout(function () {
                     $("#login_email").val(value.login_email);
                     $("#id_type").val(value.id_type);
                     $("#id_number").val(value.id_number);
-                    $("#country_id").val(value.country_id);
-                    $("#city").val(value.city);
-                    $("#zip_code").val(value.zip_code);
-                    $("#address").val(value.address);
+                    // $("#country_id").val(value.country_id);
+                    // $("#city").val(value.city);
+                    // $("#zip_code").val(value.zip_code);
+                    // $("#address").val(value.address);
 
                     console.log(userdetail);
-                });
+                // });
 
             }
 
