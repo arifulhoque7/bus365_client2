@@ -612,6 +612,8 @@ class Ticket extends BaseController
             $singleTripData['price_pcs'] = $this->request->getVar('price_pcs');
             $singleTripData['price_kg'] = $this->request->getVar('price_kg');
             $singleTripData['special_luggage'] = $this->request->getVar('special_luggage');
+            $singleTripData['parkingboycommission'] = $this->request->getVar('parkingboycommission');
+
 
 
 
@@ -650,7 +652,7 @@ class Ticket extends BaseController
             $data['price_pcs'] = $this->request->getVar('price_pcs');
             $data['price_kg'] = $this->request->getVar('price_kg');
             $data['special_luggage'] = $this->request->getVar('special_luggage');
-
+            $data['parkingboycommission'] = $this->request->getVar('parkingboycommission');
 
 
 
@@ -724,7 +726,7 @@ class Ticket extends BaseController
         // get user info
         $login_email = $this->request->getVar('login_email');
         $login_mobile = $this->request->getVar('login_mobile');
-        $userid = $this->userCheck($login_email, $login_mobile);
+        $userid = $this->userCheck($login_mobile,$login_email ?? null);
 
         $loginUserId = $this->session->get('user_id');
         $bookUserId = $this->session->get('role_id');
@@ -769,6 +771,7 @@ class Ticket extends BaseController
             "price_pcs" => $this->request->getVar('price_pcs'),
             "price_kg" => $this->request->getVar('price_kg'),
             "special_luggage" => $this->request->getVar('special_luggage'),
+            "parking_boy_commission" => $this->request->getVar('parking_boy_commission'),
         );
 
         $validTicketbooking = array(
@@ -894,7 +897,7 @@ class Ticket extends BaseController
         return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());
     }
 
-    public function userCheck($login_email = null, $login_mobile)
+    public function userCheck($login_mobile ,$login_email = null)
     {
         $userid = null;
         if (empty($login_email)) {
@@ -1235,7 +1238,7 @@ class Ticket extends BaseController
         $login_email = $this->request->getVar('login_email') ?: null;
         $login_mobile = $this->request->getVar('login_mobile');
 
-        $userid = $this->userCheck($login_email = null, $login_mobile);
+        $userid = $this->userCheck($login_mobile ,$login_email ?? null);
 
         $loginUserId = $this->session->get('user_id');
 
@@ -1288,6 +1291,7 @@ class Ticket extends BaseController
             "price_pcs" => $this->session->get('price_pcs'),
             "price_kg" => $this->session->get('price_kg'),
             "special_luggage" => $this->session->get('special_luggage'),
+            "parking_boy_commission" => $this->session->get('parking_boy_commission'),
 
         );
 

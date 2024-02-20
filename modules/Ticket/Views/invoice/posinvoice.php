@@ -95,7 +95,7 @@
 
                                 <div class="item-title text-end">
                                     <p class="bolder"><?php echo lang("Localize.amount") ?> </p>
-                                    <p> <?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->price ?></p>
+                                    <p> <?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->price + $ticket->parking_boy_commission ?></p>
                                 </div>
 
                             </div>
@@ -109,29 +109,7 @@
 
             <div class="invoice-details">
 
-                <div class="row-data">
 
-                    <div class="item-info">
-                        <h6 class="item-title"><?php echo lang("Localize.discount") ?></h6>
-                    </div>
-
-                    <div class="">
-                        <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->discount ?></h6>
-                    </div>
-                </div>
-
-                <?php if ((!empty($ticket->roundtrip_discount)) && ($ticket->roundtrip_discount > 0)) : ?>
-                    <div class="row-data">
-
-                        <div class="item-info">
-                            <?php echo lang("Localize.discount_round_trip") ?>
-                        </div>
-
-                        <div class="">
-                            <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->roundtrip_discount ?></h6>
-                        </div>
-                    </div>
-                <?php endif ?>
 
                 <?php if ($websetting && $websetting->luggage_service == 1) : ?>
                     <div class="row-data">
@@ -156,6 +134,36 @@
                     </div>
                 <?php endif ?>
 
+
+
+                <div class="row-data invoice-details">
+
+                    <div class="item-info">
+                        <h6 class="item-title"><?php echo lang("Localize.sub") ?> <?php echo lang("Localize.total") ?></h6>
+                    </div>
+
+                    <div class="">
+                        <?php if ($websetting && $websetting->luggage_service == 1) : ?>
+                            <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price + $ticket->parking_boy_commission, 2) + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg); ?></h6>
+                        <?php else : ?>
+                            <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price + $ticket->parking_boy_commission, 2); ?></h6>
+                        <?php endif ?>
+
+                    </div>
+                </div>
+
+
+                <div class="row-data">
+
+                    <div class="item-info">
+                        <h6 class="item-title"><?php echo lang("Localize.discount") ?></h6>
+                    </div>
+
+                    <div class="">
+                        <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->discount ?></h6>
+                    </div>
+                </div>
+
                 <?php if ((!empty($ticket->roundtrip_discount)) && ($ticket->roundtrip_discount > 0)) : ?>
                     <div class="row-data">
 
@@ -164,28 +172,7 @@
                         </div>
 
                         <div class="">
-                            <?php if ($websetting && $websetting->luggage_service == 1) : ?>
-                                <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price, 2) - $ticket->discount - $ticket->roundtrip_discount + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg); ?></h6>
-                            <?php else : ?>
-                                <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price, 2) - $ticket->discount - $ticket->roundtrip_discount; ?></h6>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                <?php else :  ?>
-
-                    <div class="row-data invoice-details">
-
-                        <div class="item-info">
-                            <h6 class="item-title"><?php echo lang("Localize.sub") ?> <?php echo lang("Localize.total") ?></h6>
-                        </div>
-
-                        <div class="">
-                            <?php if ($websetting && $websetting->luggage_service == 1) : ?>
-                                <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price, 2) - $ticket->discount + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg); ?></h6>
-                            <?php else : ?>
-                                <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price, 2) - $ticket->discount; ?></h6>
-                            <?php endif ?>
-
+                            <h6 class="item-title"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->roundtrip_discount ?></h6>
                         </div>
                     </div>
                 <?php endif ?>
