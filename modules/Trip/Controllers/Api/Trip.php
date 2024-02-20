@@ -199,8 +199,11 @@ class Trip extends BaseController
                 ->where('subtrip_id', $subTrip->subtripId)
                 ->where('status', 1)
                 ->first();
-
-            $subTrip->rating = number_format($totalRating->avg_rat, 1);
+            if($totalRating->t_rat > 0){
+                $subTrip->rating = number_format($totalRating->avg_rat, 1);
+            }else{
+                $subTrip->rating = 0;
+            }
 
             // build booked seats
             $bookedTickets = $this->ticketModel

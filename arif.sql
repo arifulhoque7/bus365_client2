@@ -340,3 +340,4 @@ AFTER
 ALTER TABLE
     `users` CHANGE `login_email` `login_email` VARCHAR(255) CHARSET utf8mb3 COLLATE utf8mb3_general_ci NULL,
     CHANGE `login_mobile` `login_mobile` VARCHAR(100) CHARSET utf8mb3 COLLATE utf8mb3_general_ci NULL;
+

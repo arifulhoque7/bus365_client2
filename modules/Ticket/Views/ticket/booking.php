@@ -34,6 +34,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <input type="hidden" name="special_luggage" id="special_luggage" value="<?php echo $special_luggage; ?>">
             
 
+
             <?php if ($sessiondata->has('grandtotal')) : ?>
                 <input type="hidden" name="oldgrandtotal" id="oldgrandtotal" value="<?php echo $rouondTripTotal; ?>">
             <?php else : ?>
@@ -45,6 +46,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <input type="hidden" name="totalseat" id="totalseat" value="<?php echo $totalseat; ?>">
             <input type="hidden" name="journeydate" id="journeydate" value="<?php echo $journeydate; ?>">
             <input type="hidden" name="roundtrip_discount" id="roundtrip_discount" value="<?php echo $roundtrip_discount; ?>">
+            <input type="hidden" name="parking_boy_commission"  id="parking_boy_commission" value="<?php echo $parkingboycommission; ?>">
 
             <div class="booking-passangers mb-4">
                 <div class="row">

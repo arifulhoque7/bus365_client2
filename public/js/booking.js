@@ -1120,6 +1120,7 @@ function formsubmit(index, subtripid) {
     grandtotal = $("#grandtotal" + subtripid).text(),
     pickstand = $("#pickupstand" + subtripid).val(),
     dropstand = $("#dropstand" + subtripid).val(),
+    parkingBoyCommission = parseFloat($("#parking_boy_commission" + subtripid).val()).toFixed(2),
     journeydate = $("#journeydate").val();
 
   if (websetting.luggage_service == 1) {
@@ -1135,7 +1136,7 @@ function formsubmit(index, subtripid) {
       ).toFixed(2),
       price_pcs = parseFloat($("#price_pcs" + subtripid).val()).toFixed(2),
       price_kg = parseFloat($("#price_kg" + subtripid).val()).toFixed(2);
-    special_luggage = $("#special_luggage" + subtripid).val();
+      special_luggage = $("#special_luggage" + subtripid).val();
   } else {
     var free_luggage_pcs = 0,
       free_luggage_kg = 0,
@@ -1219,6 +1220,7 @@ function formsubmit(index, subtripid) {
   $("#totalprice").val(totalprice);
   $("#tax").val(tax);
   $("#grandtotal").val(grandtotal);
+  $("#parkingboycommission").val(parkingBoyCommission);
 
   if (websetting.luggage_service == 1) {
     $("#free_luggage_pcs").val(free_luggage_pcs);
@@ -1258,6 +1260,7 @@ function formsubmit(index, subtripid) {
       price_pcs: price_pcs,
       price_kg: price_kg,
       special_luggage: special_luggage,
+      parking_boy_commission : parkingBoyCommission
     },
     success: function (response) {
       console.log(response);

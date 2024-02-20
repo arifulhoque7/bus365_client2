@@ -195,6 +195,11 @@ class Ticket extends Migration
                 'constraint' => '10,2',
                 'null' => true,
             ],
+            'parking_boy_commission' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,2',
+                'null' => true,
+            ],
 
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',

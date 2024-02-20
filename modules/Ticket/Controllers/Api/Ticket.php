@@ -31,6 +31,7 @@ use Modules\Layout\Models\LayoutModel;
 use Modules\Layout\Models\LayoutDetailsModel;
 use Modules\Luggage\Models\LuggagesettingModel;
 
+
 class Ticket extends BaseController
 {
     use ResponseTrait;
@@ -1289,14 +1290,21 @@ class Ticket extends BaseController
         $mergedLuggageInfo = new \stdClass();
 
         // Merge objects, considering the condition and casting to int or float
-        $mergedLuggageInfo->free_luggage_pcs = is_numeric($tripLuggageInfo->free_luggage_pcs) ? intval($tripLuggageInfo->free_luggage_pcs) : intval($luggageInfoGlobal->free_luggage_pcs);
-        $mergedLuggageInfo->free_luggage_kg = is_numeric($tripLuggageInfo->free_luggage_kg) ? number_format(floatval($tripLuggageInfo->free_luggage_kg), 2, '.', '') : number_format(floatval($luggageInfoGlobal->free_luggage_kg), 2, '.', '');
-        $mergedLuggageInfo->paid_max_luggage_pcs = is_numeric($tripLuggageInfo->paid_max_luggage_pcs) ? intval($tripLuggageInfo->paid_max_luggage_pcs) : intval($luggageInfoGlobal->paid_max_luggage_pcs);
-        $mergedLuggageInfo->paid_max_luggage_kg = is_numeric($tripLuggageInfo->paid_max_luggage_kg) ? number_format(floatval($tripLuggageInfo->paid_max_luggage_kg), 2, '.', '') : number_format(floatval($luggageInfoGlobal->paid_max_luggage_kg), 2, '.', '');
-        $mergedLuggageInfo->price_pcs = is_numeric($tripLuggageInfo->price_pcs) ? number_format(floatval($tripLuggageInfo->price_pcs), 2, '.', '') : number_format(floatval($luggageInfoGlobal->price_pcs), 2, '.', '');
-        $mergedLuggageInfo->price_kg = is_numeric($tripLuggageInfo->price_kg) ? number_format(floatval($tripLuggageInfo->price_kg), 2, '.', '') : number_format(floatval($luggageInfoGlobal->price_kg), 2, '.', '');
-
-
+        if (count((array)$tripLuggageInfo) > 0 || count((array)$luggageInfoGlobal) > 0) {
+            $mergedLuggageInfo->free_luggage_pcs = is_numeric($tripLuggageInfo->free_luggage_pcs) ? intval($tripLuggageInfo->free_luggage_pcs) : intval($luggageInfoGlobal->free_luggage_pcs);
+            $mergedLuggageInfo->free_luggage_kg = is_numeric($tripLuggageInfo->free_luggage_kg) ? number_format(floatval($tripLuggageInfo->free_luggage_kg), 2, '.', '') : number_format(floatval($luggageInfoGlobal->free_luggage_kg), 2, '.', '');
+            $mergedLuggageInfo->paid_max_luggage_pcs = is_numeric($tripLuggageInfo->paid_max_luggage_pcs) ? intval($tripLuggageInfo->paid_max_luggage_pcs) : intval($luggageInfoGlobal->paid_max_luggage_pcs);
+            $mergedLuggageInfo->paid_max_luggage_kg = is_numeric($tripLuggageInfo->paid_max_luggage_kg) ? number_format(floatval($tripLuggageInfo->paid_max_luggage_kg), 2, '.', '') : number_format(floatval($luggageInfoGlobal->paid_max_luggage_kg), 2, '.', '');
+            $mergedLuggageInfo->price_pcs = is_numeric($tripLuggageInfo->price_pcs) ? number_format(floatval($tripLuggageInfo->price_pcs), 2, '.', '') : number_format(floatval($luggageInfoGlobal->price_pcs), 2, '.', '');
+            $mergedLuggageInfo->price_kg = is_numeric($tripLuggageInfo->price_kg) ? number_format(floatval($tripLuggageInfo->price_kg), 2, '.', '') : number_format(floatval($luggageInfoGlobal->price_kg), 2, '.', '');
+        } else if ($tripLuggageInfo == null && $luggageInfoGlobal == null) {
+            $mergedLuggageInfo->free_luggage_pcs = 0;
+            $mergedLuggageInfo->free_luggage_kg = 0.00;
+            $mergedLuggageInfo->paid_max_luggage_pcs = 0;
+            $mergedLuggageInfo->paid_max_luggage_kg = 0.00;
+            $mergedLuggageInfo->price_pcs = 0.00;
+            $mergedLuggageInfo->price_kg = 0.00;
+        }
         $data = [
             'status' => "success",
             'response' => 200,
