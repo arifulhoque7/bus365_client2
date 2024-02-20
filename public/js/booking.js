@@ -406,7 +406,7 @@ function dynamichtml(result, id) {
   $adultSeatCountInp.attr({
     type: "number",
     id: `adult_seat${id}`,
-    class: 'form-control',
+    class: "form-control",
     name: `adult_seat`,
     max: null,
     onchange: `adultseat(this, ${id})`,
@@ -433,10 +433,10 @@ function dynamichtml(result, id) {
       $pricePcsInp = $("<input/>"),
       $priceKg = $freeLuggagePcs.clone(),
       $priceKgLbl = $("<label/>"),
-      $priceKgInp = $("<input/>");
-    ($specialLuggage = $freeLuggagePcs.clone()),
-      ($specialLuggageLbl = $("<label/>")),
-      ($specialLuggageInp = $("<input/>"));
+      $priceKgInp = $("<input/>"),
+      $specialLuggage = $freeLuggagePcs.clone(),
+      $specialLuggageLbl = $("<label/>"),
+      $specialLuggageInp = $("<input/>");
 
     $freeLuggagePcsLbl
       .attr("for", `free_luggage_pcs${id}`)
@@ -457,7 +457,7 @@ function dynamichtml(result, id) {
     });
 
     $freeLuggagePcs
-      .addClass("col-6 mt-3")
+      .addClass("col-lg-6 mt-3")
       .append([$freeLuggagePcsLbl, $freeLuggagePcsInp]);
 
     $freeLuggageKgLbl
@@ -480,7 +480,7 @@ function dynamichtml(result, id) {
     });
 
     $freeLuggageKg
-      .addClass("col-6 mt-3")
+      .addClass("col-lg-6 mt-3")
       .append([$freeLuggageKgLbl, $freeLuggageKgInp]);
 
     $paidMaxLuggagePcsLbl
@@ -502,7 +502,7 @@ function dynamichtml(result, id) {
     });
 
     $paidMaxLuggagePcs
-      .addClass("col-6 mt-2")
+      .addClass("col-lg-6 mt-2")
       .append([$paidMaxLuggagePcsLbl, $paidMaxLuggagePcsInp]);
 
     $paidMaxLuggageKgLbl
@@ -525,7 +525,7 @@ function dynamichtml(result, id) {
     });
 
     $paidMaxLuggageKg
-      .addClass("col-6 mt-2")
+      .addClass("col-lg-6 mt-2")
       .append([$paidMaxLuggageKgLbl, $paidMaxLuggageKgInp]);
 
     $pricePcsLbl
@@ -543,7 +543,7 @@ function dynamichtml(result, id) {
       tabindex: 1,
     });
 
-    $pricePcs.addClass("col-6 mt-2").append([$pricePcsLbl, $pricePcsInp]);
+    $pricePcs.addClass("col-lg-6 mt-2").append([$pricePcsLbl, $pricePcsInp]);
 
     $priceKgLbl
       .attr("for", `price_kg${id}`)
@@ -560,7 +560,7 @@ function dynamichtml(result, id) {
       tabindex: 1,
     });
 
-    $priceKg.addClass("col-6 mt-2").append([$priceKgLbl, $priceKgInp]);
+    $priceKg.addClass("col-lg-6 mt-2").append([$priceKgLbl, $priceKgInp]);
 
     $specialLuggageLbl
       .attr("for", `special_luggage${id}`)
@@ -579,9 +579,34 @@ function dynamichtml(result, id) {
       .addClass("col-12 mt-2")
       .append([$specialLuggageLbl, $specialLuggageInp]);
   }
+  var $parkingBoyCommission = $("<div/>"),
+    $parkingBoyCommissionLbl = $("<label/>"),
+    $parkingBoyCommissionInp = $("<input/>");
+
+  $parkingBoyCommissionLbl
+    .attr("for", `parking_boy_commission${id}`)
+    .addClass("form-label text-capitalize")
+    .text("Parking Boy Commission");
+
+  $parkingBoyCommissionInp.attr({
+    type: "number",
+    id: `parking_boy_commission${id}`,
+    class: "form-control",
+    name: `parking_boy_commission`,
+    value: "0.00",
+    min: 0.0,
+    step: 0.01,
+    tabindex: 1,
+    onchange: `parkingBoyCommisssion(this, ${id})`,
+  });
+
+  $parkingBoyCommission
+    .addClass("col-12 mt-2")
+    .append([$parkingBoyCommissionLbl, $parkingBoyCommissionInp]);
 
   // html += $childSeatCount.prop('outerHTML') + $specialSeatCount.prop('outerHTML') + $adultSeatCount.prop('outerHTML');
-  html += $adultSeatCount.prop("outerHTML");
+  html +=
+    $adultSeatCount.prop("outerHTML") + $parkingBoyCommission.prop("outerHTML");
 
   if (websetting.luggage_service == 1) {
     html +=
@@ -640,8 +665,8 @@ function dynamichtml(result, id) {
       : $dropSelect.append($pickSelectOptionSingle);
   });
 
-  $pick.addClass("col-6 my-3").append([$pickLbl, $pickSelect]);
-  $drop.addClass("col-6 my-3").append([$dropLbl, $dropSelect]);
+  $pick.addClass("col-lg-6 my-3").append([$pickLbl, $pickSelect]);
+  $drop.addClass("col-lg-6 my-3").append([$dropLbl, $dropSelect]);
 
   html += $pick.prop("outerHTML") + $drop.prop("outerHTML");
 
@@ -659,7 +684,7 @@ function dynamichtml(result, id) {
     "</h6>";
   html += "</div>";
 
-  html += '<div class="col-4 mt-2">';
+  html += '<div class="col-4 mt-2 d-flex justify-content-end justify-content-lg-start">';
   html +=
     '   <h6 class="form-label fw-bold">' +
     bdtaskIlmCommonJs.lang.getPhrase("total") +
@@ -682,76 +707,76 @@ function dynamichtml(result, id) {
     "</h6>";
   html += "</div>";
 
-  html += '<div class="col-4 mt-1">';
+  html += '<div class="col-4 mt-1 d-flex justify-content-end justify-content-lg-start">';
   html += '   <h6 class="form-label" id="adult_price_show' + id + '">0</h6>';
   html += "</div>";
 
-  html += '<div class="col-4 mt-1">';
-  html +=
-    '   <h6 class="form-label">' +
-    bdtaskIlmCommonJs.lang.getPhrase("child") +
-    "</h6>";
-  html += "</div>";
+  // html += '<div class="col-4 mt-1">';
+  // html +=
+  //   '   <h6 class="form-label">' +
+  //   bdtaskIlmCommonJs.lang.getPhrase("child") +
+  //   "</h6>";
+  // html += "</div>";
 
-  if (childprice == "") {
-    html += '<div class="col-4 mt-1">';
-    html +=
-      '   <h6 class="form-label" id="child_price' +
-      id +
-      '">' +
-      adultprice +
-      "</h6>";
-    html += "</div>";
-  } else {
-    html += '<div class="col-4 mt-1">';
-    html +=
-      '   <h6 class="form-label" id="child_price' +
-      id +
-      '">' +
-      childprice +
-      "</h6>";
-    html += "</div>";
-  }
+  // if (childprice == "") {
+  //   html += '<div class="col-4 mt-1">';
+  //   html +=
+  //     '   <h6 class="form-label" id="child_price' +
+  //     id +
+  //     '">' +
+  //     adultprice +
+  //     "</h6>";
+  //   html += "</div>";
+  // } else {
+  //   html += '<div class="col-4 mt-1">';
+  //   html +=
+  //     '   <h6 class="form-label" id="child_price' +
+  //     id +
+  //     '">' +
+  //     childprice +
+  //     "</h6>";
+  //   html += "</div>";
+  // }
 
-  html += '<div class="col-4 mt-1">';
-  html += '   <h6 class="form-label" id="child_price_show' + id + '">0</h6>';
-  html += "</div>";
+  // html += '<div class="col-4 mt-1">';
+  // html += '   <h6 class="form-label" id="child_price_show' + id + '">0</h6>';
+  // html += "</div>";
 
-  html += '<div class="col-4 mt-1">';
-  html +=
-    '   <h6 class="form-label">' +
-    bdtaskIlmCommonJs.lang.getPhrase("special") +
-    "</h6>";
-  html += "</div>";
+  // html += '<div class="col-4 mt-1">';
+  // html +=
+  //   '   <h6 class="form-label">' +
+  //   bdtaskIlmCommonJs.lang.getPhrase("special") +
+  //   "</h6>";
+  // html += "</div>";
 
-  if (spacialprice == "") {
-    html += '<div class="col-4 mt-1">';
-    html +=
-      '   <h6 class="form-label" id="special_price' +
-      id +
-      '">' +
-      adultprice +
-      "</h6>";
-    html += "</div>";
-  } else {
-    html += '<div class="col-4 mt-1">';
-    html +=
-      '   <h6 class="form-label" id="special_price' +
-      id +
-      '">' +
-      spacialprice +
-      "</h6>";
-    html += "</div>";
-  }
+  // if (spacialprice == "") {
+  //   html += '<div class="col-4 mt-1">';
+  //   html +=
+  //     '   <h6 class="form-label" id="special_price' +
+  //     id +
+  //     '">' +
+  //     adultprice +
+  //     "</h6>";
+  //   html += "</div>";
+  // } else {
+  //   html += '<div class="col-4 mt-1">';
+  //   html +=
+  //     '   <h6 class="form-label" id="special_price' +
+  //     id +
+  //     '">' +
+  //     spacialprice +
+  //     "</h6>";
+  //   html += "</div>";
+  // }
 
-  html += '<div class="col-4 mt-1">';
-  html += '   <h6 class="form-label" id="special_price_show' + id + '">0</h6>';
-  html += "</div>";
+  // html += '<div class="col-4 mt-1">';
+  // html += '   <h6 class="form-label" id="special_price_show' + id + '">0</h6>';
+  // html += "</div>";
 
   html += "<hr>";
 
   if (websetting.luggage_service == 1) {
-    html += '<div class="col-md-4">';
+    html += '<div class="col-6 col-lg-4">';
     html += `   <h6 class="form-label"> ${bdtaskIlmCommonJs.lang.getPhrase(
       "free"
     )} ${bdtaskIlmCommonJs.lang.getPhrase(
@@ -759,15 +784,15 @@ function dynamichtml(result, id) {
     )} ( <span class="form-label" id="totalfreeluggagepcs${id}"> 0 </span> pcs ) |  ( <span class="form-label" id="totalfreeluggagekg${id}">0</span> kg ) </h6>`;
     html += "</div>";
 
-    html += '<div class="col-md-4">';
+    html += '<div class="col-6 col-lg-4 d-none d-lg-block">';
     html += '   <h6 class="form-label" ></h6>';
     html += "</div>";
 
-    html += '<div class="col-md-4 ">';
+    html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
     html += '   <h6 class="form-label" id="totalfreeluggage' + id + '">0</h6>';
     html += "</div>";
 
-    html += '<div class="col-md-4">';
+    html += '<div class="col-6  col-lg-4">';
     html += `   <h6 class="form-label"> ${bdtaskIlmCommonJs.lang.getPhrase(
       "paid"
     )} ${bdtaskIlmCommonJs.lang.getPhrase(
@@ -775,16 +800,16 @@ function dynamichtml(result, id) {
     )} ( <span class="form-label" id="totalpaidluggagepcscount${id}"> 0 </span> pcs )</h6>`;
     html += "</div>";
 
-    html += '<div class="col-md-4">';
+    html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
     html += '   <h6 class="form-label" ></h6>';
     html += "</div>";
 
-    html += '<div class="col-md-4 ">';
+    html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
     html +=
       '   <h6 class="form-label" id="totalpaidluggagepcs' + id + '">0</h6>';
     html += "</div>";
 
-    html += '<div class="col-md-4">';
+    html += '<div class="col-6  col-lg-4">';
     html += `   <h6 class="form-label"> ${bdtaskIlmCommonJs.lang.getPhrase(
       "paid"
     )} ${bdtaskIlmCommonJs.lang.getPhrase(
@@ -792,71 +817,89 @@ function dynamichtml(result, id) {
     )} ( <span class="form-label" id="totalpaidluggagekgcount${id}">0</span> kg )</h6>`;
     html += "</div>";
 
-    html += '<div class="col-md-4">';
+    html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
     html += '   <h6 class="form-label" ></h6>';
     html += "</div>";
 
-    html += '<div class="col-md-4 ">';
+    html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
     html +=
       '   <h6 class="form-label" id="totalpaidluggagekg' + id + '">0</h6>';
     html += "</div>";
   }
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4">';
   html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
     "ticket"
   )} ${bdtaskIlmCommonJs.lang.getPhrase("price")}</h6>`;
   html += "</div>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
   html += '   <h6 class="form-label" ></h6>';
   html += "</div>";
 
-  html += '<div class="col-md-4 ">';
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
   html += '   <h6 class="form-label" id="totalprice' + id + '">0</h6>';
   html += "</div>";
 
+
+  html += '<div class="col-6  col-lg-4">';
+  html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
+    "parking"
+  )} ${bdtaskIlmCommonJs.lang.getPhrase(
+    "boy"
+  )} ${bdtaskIlmCommonJs.lang.getPhrase("price")}</h6>`;
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
+  html += '   <h6 class="form-label" ></h6>';
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
+  html += '   <h6 class="form-label" id="parkingboycommission' + id + '">0</h6>';
+  html += "</div>";
+
+
   html += "<hr>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4">';
   html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
     "sub"
   )} ${bdtaskIlmCommonJs.lang.getPhrase("total")}</h6>`;
   html += "</div>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
   html += '   <h6 class="form-label" ></h6>';
   html += "</div>";
 
-  html += '<div class="col-md-4 ">';
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
   html += '   <h6 class="form-label" id="subtotal' + id + '">0</h6>';
   html += "</div>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4">';
   html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
     "tax"
   )}</h6>`;
   html += "</div>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
   html += '   <h6 class="form-label" ></h6>';
   html += "</div>";
 
-  html += '<div class="col-md-4 ">';
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
   html += '   <h6 class="form-label" id="totaltax' + id + '">0</h6>';
   html += "</div>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4">';
   html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
     "grand"
   )} ${bdtaskIlmCommonJs.lang.getPhrase("total")}</h6>`;
   html += "</div>";
 
-  html += '<div class="col-md-4">';
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
   html += '   <h6 class="form-label"></h6>';
   html += "</div>";
 
-  html += '<div class="col-md-4 ">';
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
   html += '<h6  class="form-label" id="grandtotal' + id + '">0</h6>';
   html += "</div>";
 
@@ -887,7 +930,7 @@ function childseat(cseat, subtripid) {
 
   var price = $("#child_price" + subtripid).text();
   var totalprice = filteredValue * parseInt(price);
-  $("#child_price_show" + subtripid).text(totalprice);
+  // $("#child_price_show" + subtripid).text(totalprice);
 
   toprice(subtripid);
   updateSeatCount(subtripid);
@@ -980,6 +1023,16 @@ function paidMaxLagguageKg(cseat, subtripid) {
   toprice(subtripid);
 }
 
+function parkingBoyCommisssion(pbcommission, subtripid) {
+  var $field = $(pbcommission),
+    originalValue = parseFloat($field.val()) || 0.0;
+
+  $field.val(originalValue.toFixed(2));
+  $("#parkingboycommission" + subtripid).text(originalValue.toFixed(2));
+
+  toprice(subtripid);
+}
+
 // function specialseat(cseat, subtripid) {
 //   var $field = $(cseat),
 //     maxSpecial = $field.prop("max"),
@@ -1003,12 +1056,13 @@ function paidMaxLagguageKg(cseat, subtripid) {
 // }
 
 function toprice(subtripid) {
-  var cprice = $("#special_price_show" + subtripid).text();
-  var sprice = $("#child_price_show" + subtripid).text();
+  // var cprice = $("#special_price_show" + subtripid).text();
+  // var sprice = $("#child_price_show" + subtripid).text();
   var aprice = $("#adult_price_show" + subtripid).text();
   var totalLuggagePricePcs = $("#totalpaidluggagepcs" + subtripid).text();
   var totalLuggagePriceKg = $("#totalpaidluggagekg" + subtripid).text();
-  var totalprice = parseInt(cprice) + parseInt(sprice) + parseInt(aprice);
+  var parkingBoyCommission = $("#parkingboycommission" + subtripid).text();
+  var totalprice = parseInt(aprice);
   var subbtotal = 0;
   if (websetting.luggage_service == 1) {
     subbtotal =
@@ -1018,6 +1072,7 @@ function toprice(subtripid) {
   } else {
     subbtotal = totalprice;
   }
+  subbtotal = parseFloat(subbtotal) + parseFloat(parkingBoyCommission);
   // console.log(parseInt(cprice),parseInt(sprice),parseInt(aprice),parseFloat(totalLuggagePricePcs),parseFloat(totalLuggagePriceKg));
   $("#totalprice" + subtripid).text(totalprice);
 
@@ -1094,13 +1149,13 @@ function formsubmit(index, subtripid) {
   totalprice = parseFloat(totalprice);
   tax = parseFloat(tax);
   grandtotal = parseFloat(grandtotal);
-//   childseat = parseInt(childseat);
-//   specialseat = parseInt(specialseat);
+  //   childseat = parseInt(childseat);
+  //   specialseat = parseInt(specialseat);
   adultseat = parseInt(adultseat);
   // console.log(websetting.luggage_service);return;
 
-//   var totalpassanger = parseInt(childseat + adultseat + specialseat);
-  var totalpassanger = parseInt( adultseat );
+  //   var totalpassanger = parseInt(childseat + adultseat + specialseat);
+  var totalpassanger = parseInt(adultseat);
 
   if (allseatnumber) {
     $("#seatnumbers").val(allseatnumber);

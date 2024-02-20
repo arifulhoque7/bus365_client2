@@ -12,7 +12,7 @@
     <div class="card-body">
         <div class="row">
             <?php foreach ($tags as $tag) { ?>
-                <div class="col-4 mt-2">
+                <div class="col-md-6 col-lg-4 mt-2">
                     <div class="bg-success text-white rounded p-3 shadow-sm text-center">
                         <div class="header-pretitle fs-15 font-weight-bold text-uppercase">User Info</div>
                         <span>-----------------------</span>

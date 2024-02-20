@@ -48,13 +48,13 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
 
             <div class="booking-passangers mb-4">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-lg-7">
                         <h5 class="card-title"><?php echo lang('Localize.customer') . " " . lang('Localize.details') ?></h5>
                         <?php echo $this->include($filterpath . '\ticket\passanger') ?>
                     </div>
 
                     <?php if ($dynamicfield) :  ?>
-                        <div class="col-5">
+                        <div class="col-lg-5">
                             <h5 class="card-title"><?php echo lang('Localize.passanger') . " " . lang('Localize.details') ?></h5>
 
                             <?php for ($i = 1; $i <= $dynamicfield; $i++) { ?>
@@ -62,22 +62,22 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                                     <label class="fw-bold"><?php echo lang("Localize.passanger") ?> <?php echo $i + 1; ?> </label>
                                     
                                     <div class="row mb-2">
-                                        <div class="col-6 ">
+                                        <div class="col-lg-6 ">
                                             <label for="first_name"><?php echo lang("Localize.first_name") ?></label>
                                             <input type="text" name="first_name_new[]" class="form-control" value="" placeholder="<?php echo lang("Localize.first_name") ?>" aria-label="First name">
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-lg-6">
                                             <label for="last_name"><?php echo lang("Localize.last_name") ?></label>
                                             <input type="text" name="last_name_new[]" class="form-control" value="" placeholder="<?php echo lang("Localize.last_name") ?>" aria-label="Last name">
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-lg-6">
                                             <label for="login_mobile"><?php echo lang("Localize.mobile") ?></label>
                                             <input type="number" name="login_mobile_new[]" class="form-control" value="" placeholder="<?php echo lang("Localize.mobile") ?>" aria-label="Mobile">
                                         </div>
     
-                                        <div class="col-6">
+                                        <div class="col-lg-6">
                                             <label for="id_number"><?php echo lang("Localize.nid_passport_number") ?></label>
                                             <input type="text" name="id_number_new[]" class="form-control" value="" placeholder="<?php echo lang("Localize.nid_passport_number") ?>" aria-label="Nid/Passport Number">
                                         </div>
@@ -95,7 +95,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                 <h5 class="card-title"><?php echo lang('Localize.payment') . " " . lang('Localize.details')  ?></h5>
 
                 <div class="row">
-                    <div class="col-4 form-group">
+                    <div class="col-lg-4 form-group">
                         <label for="payment_status"><?php echo lang("Localize.payment") ?> <?php echo lang("Localize.status") ?> <abbr class="required" title="Required field">*</abbr></label>
                         <select class="form-select" name="payment_status" id="payment_status" required>
                             <option value="paid"><?php echo lang("Localize.paid") ?></option>
@@ -104,7 +104,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                         </select>
                     </div>
 
-                    <div class="col-4 form-group" id="payment_method">
+                    <div class="col-lg-4 form-group" id="payment_method">
                         <label for="pay_method"><?php echo lang("Localize.pay") ?> <?php echo lang("Localize.type") ?> <abbr class="required" title="Required field">*</abbr></label>
                         <select class="form-select" name="pay_method" id="pay_method" required>
 
@@ -115,36 +115,36 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                         </select>
                     </div>
 
-                    <div class="col-4 form-group" id="grand">
+                    <div class="col-lg-4 form-group" id="grand">
                         <label for="grandtotal"><?php echo lang("Localize.amount") ?> <?php echo lang("Localize.to") ?> <?php echo lang("Localize.pay") ?></label>
                         <input type="text" name="grandtotal" id="grandtotal" class="form-control" value="<?php echo $rouondTripTotal ?? $grandtotal; ?>" autocomplete="off" readonly>
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-4 form-group" id="couponcode">
+                    <div class="col-lg-4 form-group" id="couponcode">
                         <label for="coupon"><?php echo lang("Localize.apply") ?> <?php echo lang("Localize.coupon") ?></label>
                         <input type="text" name="offerer" id="coupon" class="form-control" placeholder="<?php echo lang("Localize.coupon") ?>">
                         <small id="couponmessage"></small>
                     </div>
 
                     <?php if ($discount == 1) : ?>
-                        <div class="col-4 form-group" id="less">
+                        <div class="col-lg-4 form-group" id="less">
                             <label for="discount"><?php echo lang("Localize.discount") ?> </label>
                             <input type="text" name="discount" id="discount" class="form-control" value="0">
                         </div>
                     <?php else : ?>
-                        <div class="col-4 form-group" id="less">
+                        <div class="col-lg-4 form-group" id="less">
                             <label for="discount"><?php echo lang("Localize.discount") ?> </label>
                             <input type="text" name="discount" id="discount" class="form-control" value="0" readonly>
                         </div>
                     <?php endif ?>
 
-                    <div class="col-4 form-group" id="partial">
+                    <div class="col-lg-4 form-group" id="partial">
                         <label for="partialpay"><?php echo lang("Localize.partial") ?> <?php echo lang("Localize.payment") ?> <?php echo lang("Localize.amount") ?> </label>
                         <input type="number" step="0.01" name="partialpay" id="partialpay" class="form-control" max="<?php echo $rouondTripTotal ?? $grandtotal; ?>" placeholder="<?php echo lang("Localize.partial") ?> <?php echo lang("Localize.payment") ?> <?php echo lang("Localize.amount") ?>" aria-label="Partial Payment Amount">
                     </div>
 
-                    <div class="col-4 form-group" id="detailpay">
+                    <div class="col-lg-4 form-group" id="detailpay">
                         <label for="paydetail"><?php echo lang("Localize.payment") ?> <?php echo lang("Localize.details") ?></label>
                         <input type="text" name="paydetail" class="form-control" value="<?php echo old('paydetail') ?>" placeholder="<?php echo lang("Localize.payment") ?> <?php echo lang("Localize.details") ?>" aria-label="Payment Detail">
                     </div>

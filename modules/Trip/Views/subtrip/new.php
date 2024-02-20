@@ -16,9 +16,9 @@
                 <input type="hidden" id="id" name="id" value="<?php echo esc($maintripid) ?>">
 
                 <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         <div class="row form-group mb-2">
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="pick_location_id" class="form-label"><?php echo lang("Localize.pick_up") ?> <abbr title="Required field">*</abbr></label>
                                 <select class="form-select select2" name="pick_location_id" id="pick_location_id" required>
                                     <option value="">None</option>
@@ -30,7 +30,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="drop_location_id" class="form-label"><?php echo lang("Localize.drop") ?> <abbr title="Required field">*</abbr></label>
                                 <select class="form-select select2" name="drop_location_id" id="drop_location_id" required>
                                     <option value="">None</option>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="row form-group mb-2">
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="stoppage" class="form-label"><?php echo lang("Localize.stoppage") ?> <?php echo lang("Localize.point") ?> <abbr title="Required field">*</abbr></label>
                                 <select name="stoppage[]" id="stoppage" class="form-control" multiple>
 
@@ -55,26 +55,26 @@
                                 </select>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="child_fair" class="form-label"><?php echo lang("Localize.children") ?> <?php echo lang("Localize.fair") ?></label>
                                 <input type="number" id="child_fair" name="child_fair" class="form-control" value="<?php echo old('child_fair') ?>" placeholder="<?php echo lang("Localize.children") ?> <?php echo lang("Localize.fair") ?>" min="0">
                             </div>
                         </div>
 
                         <div class="row form-group mb-2">
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="special_fair" class="form-label"><?php echo lang("Localize.special") ?> <?php echo lang("Localize.fair") ?></label>
                                 <input type="number" id="special_fair" name="special_fair" class="form-control" value="<?php echo old('special_fair') ?>" placeholder="<?php echo lang("Localize.special") ?>  <?php echo lang("Localize.fair") ?>" min="0">
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="adult_fair" class="form-label"><?php echo lang("Localize.adult") ?> <?php echo lang("Localize.fair") ?> <abbr title="Required field">*</abbr></label>
                                 <input type="number" id="adult_fair" name="adult_fair" class="form-control" value="<?php echo old('adult_fair') ?>" placeholder="<?php echo lang("Localize.adult") ?> <?php echo lang("Localize.fair") ?>" min="1" required>
                             </div>
                         </div>
 
                         <div class="row form-group my-4">
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <label for="show" class="form-label"><?php echo lang("Localize.show_in_home_page") ?></label>
                                 <div class="form-check mt-1">
                                     <input class="form-check-input" type="checkbox" value="1" id="show" name="show">

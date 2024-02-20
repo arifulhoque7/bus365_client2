@@ -10,12 +10,12 @@
             <form action="<?php echo base_url(route_to('update-fleet', $fleet->id)) ?>" id="fleetupdate" method="post" class="row g-3" accept-charset="utf-8" enctype="multipart/form-data">
                 <?php echo $this->include('common/securityupdate') ?>
 
-                <div class="col-3">
+                <div class="col-lg-3">
                     <label for="fleettype" class="form-label"><?php echo lang("Localize.fleet") ?> <?php echo lang("Localize.type") ?> <abbr title="Required field">*</abbr></label>
                     <input type="text" placeholder="Fleet Type" name="type" value="<?php echo old('type') ?? $fleet->type ?>" class="form-control">
                 </div>
 
-                <div class="col-3 ">
+                <div class="col-lg-3 ">
                     <label for="layout" class="form-label"><?php echo lang("Localize.fleet") ?> <?php echo lang("Localize.layout") ?> <abbr title="Required field">*</abbr></label>
                     <select id="layout" class="form-select" name="layout" required="required">
                         <option value="" disabled selected><?= $fleet->layout ?></option>
@@ -29,7 +29,7 @@
                     </select>
                 </div>
 
-                <div class="col-2 mt-5">
+                <div class="col-lg-2 mt-5">
                     <div class="form-check">
 
                         <?php if ($fleet->last_seat == 1) : ?>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-lg-4">
                     <label for="total_seat" class="form-label"><?php echo lang("Localize.total") ?> <?php echo lang("Localize.seat") ?> <abbr title="Required field">*</abbr></label>
                     <input type="number" name="total_seat" id="total_seat" placeholder="Total Seat" class="form-control" value="<?php echo old('total_seat') ?? $fleet->total_seat ?>" onkeyup="myFunction()">
                 </div>
@@ -57,7 +57,7 @@
 
 
 
-                <div class="col-3">
+                <div class="col-lg-3">
                     <label class="form-label" for="">
                         <?php echo lang("Localize.status") ?>
                         <abbr title="Required field">*</abbr>

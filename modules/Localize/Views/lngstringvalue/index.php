@@ -25,7 +25,7 @@
                                     <th scope="row"><?php echo $kye + 1; ?></th>
                                     <td><?php echo $value->name; ?></td>
                                     <td>
-                                        <input type="text" id="strvalue" name="strvalue[]" value="<?php echo esc($value->value)  ?>" class="form-control" placeholder="<?php echo lang("Localize.language") . " " . lang("Localize.string") . " " . lang("Localize.value") ?>">
+                                        <input type="text" id="strvalue" name="strvalue[]" value="<?php echo esc($value->value)  ?>" class="form-control w-auto" placeholder="<?php echo lang("Localize.language") . " " . lang("Localize.string") . " " . lang("Localize.value") ?>">
                                         <input type="hidden" id="" name="strid[]" value="<?php echo esc($value->id)  ?>">
                                     </td>
                                 </tr>

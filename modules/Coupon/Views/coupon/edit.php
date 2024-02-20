@@ -9,7 +9,7 @@
                 <?php echo $this->include('common/securityupdate') ?>
 
                 <div class="row justify-content-center">
-                    <div class="col-4">
+                    <div class="col-md-8 col-lg-4">
                         <div class="row">
                             <div class="col-12 mt-3">
                                 <label for="code" class=""><?php echo lang("Localize.coupon") ?> <?php echo lang("Localize.code") ?> <abbr title="Required field">*</abbr></label>

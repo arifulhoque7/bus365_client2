@@ -5,12 +5,12 @@
         <input type="hidden" name="type[]" value="1">
 
         <div class="row" id="boarding">
-            <div class="col-3 mt-2">
+            <div class="col-md-6 col-xl-3 mt-2">
                 <label for="picktime" class="form-label"><?php echo lang("Localize.select") ?> <?php echo lang("Localize.time") ?> <abbr title="Required field">*</abbr></label>
                 <input type="text" id="picktime" name="picktime[]" class="form-control" value="<?php echo esc(old('time')) ?? $arrivalvalue->time  ?>" placeholder="Select Time">
             </div>
 
-            <div class="col-3 mt-2">
+            <div class="col-md-6 col-xl-3 mt-2">
                 <label for="stand" class="form-label"><?php echo lang("Localize.bus") ?> <?php echo lang("Localize.stand") ?> <abbr title="Required field">*</abbr></label>
                 <select name="picstand[]" class="form-control testselect1" required>
                     <option value="">None</option>
@@ -28,12 +28,12 @@
                 </select>
             </div>
 
-            <div class="col-3 mt-2">
+            <div class="col-md-6 col-xl-3 mt-2">
                 <label for="detail" class="form-label"><?php echo lang("Localize.details") ?> </label>
                 <input type="text" id="detail" name="detail[]" class="form-control" value="<?php echo old('detail') ?? $arrivalvalue->detail ?>" placeholder="<?php echo lang("Localize.details") ?>">
             </div>
 
-            <div class="col-3 mt-2">
+            <div class="col-md-6 col-xl-3 mt-2">
                 <label class="d-block">&nbsp;</label>
                 
                 <?php if (!$key) : ?>

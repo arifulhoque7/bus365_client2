@@ -12,27 +12,27 @@
 					<div class="row justify-content-center">
 	
 
-						<div class="col-md-8 col-lg-4">
+						<div class="col-md-8">
 
 							<div class="row">
 
-								<div class="col-md-6  col-lg-3">
+								<div class="col-md-6  col-lg-4">
 									<label for="title"><?php echo lang("Localize.title") ?></label>
 									<input type="text"  name ="title" value="<?php echo $secOne->title ?? esc(old('title')) ?>" class="form-control text-capitalize">
 								</div>
 
-								<div class="col-md-6  col-lg-3">
+								<div class="col-md-6  col-lg-4">
 								<label for="sub_title"><?php echo lang("Localize.sub") ?> <?php echo lang("Localize.title") ?> </label>
 									<input type="text"  name ="sub_title" value="<?php  echo $secOne->sub_title ?? esc(old('sub_title')) ?>" class="form-control text-capitalize">
 								</div>
 
-								<div class="col-md-6  col-lg-3">
+								<div class="col-md-6  col-lg-4">
 								<label for="button_text"><?php echo lang("Localize.button") ?> <?php echo lang("Localize.text")?> </label>
 									<input type="text"  name ="button_text" value="<?php echo $secOne->button_text ?? esc(old('button_text')) ?>" class="form-control text-capitalize">
 								</div>
 								
 
-								<div class="col-md-6  col-lg-3">
+								<div class="col-12">
 								<label for="sectiononeimg" class="form-label"><?php echo lang("Localize.image") ?></label>
 								
 									<div id="sectiononeimg">

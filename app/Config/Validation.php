@@ -548,9 +548,8 @@ class Validation
     ];
 
     public $user = [
-        'id'    => 'permit_empty|integer',
-        'login_email'  => 'required|is_unique[users.login_email,id,{id}]|valid_email',
-        'login_mobile'  => 'required|is_unique[users.login_mobile,id,{id}]',
+        'login_email'  => 'required_without[login_mobile]|permit_empty|is_unique[users.login_email]',
+        'login_mobile' => 'required_without[login_email]|permit_empty|is_unique[users.login_mobile]',
         'password'  => 'required_without[id]',
         'confirm' => 'required_without[id]|permit_empty|matches[password]',
         'slug'  => 'required_without[id]',
@@ -559,14 +558,13 @@ class Validation
     ];
     public $user_errors = [
 
-        'login_email' => [
-            'required_without'    => 'Email is required',
-            'valid_email'  => 'Email is not Valid',
-            'is_unique'    => 'Email is taken',
+        'login_email'  => [
+            'required_without' => 'Email or Mobile is required',
+            'is_unique'        => 'Email is taken',
         ],
         'login_mobile' => [
-            'required_without'    => 'Mobile is required',
-            'is_unique'    => 'Mobile Number is taken',
+            'required_without' => 'Email or Mobile is required',
+            'is_unique'        => 'Mobile Number is taken',
         ],
         'password' => [
             'required_without'    => 'Password is required',

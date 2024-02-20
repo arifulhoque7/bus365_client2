@@ -400,7 +400,7 @@ class Ticket extends BaseController
         $luggagesetting  = $this->luggageSettingModel->first();
         $websetting = $this->websettingModel->first();
 
-        if($websetting->luggage_service == 1 && empty($luggagesetting)){
+        if ($websetting->luggage_service == 1 && empty($luggagesetting)) {
             return $this->response->setJSON([
                 'status' => "error",
                 'response' => 500,
@@ -897,18 +897,18 @@ class Ticket extends BaseController
     public function userCheck($login_email = null, $login_mobile)
     {
         $userid = null;
-        if(empty($login_email)){
+        if (empty($login_email)) {
             $evalue = $this->userModel->where('login_email', $login_email)->findAll();
         }
         $mvalue = $this->userModel->where('login_mobile', $login_mobile)->findAll();
 
         if (!empty($evalue) || !empty($mvalue)) {
-            if ($evalue) {
+            if (!empty($evalue)) {
                 foreach ($evalue as $key => $mobilevalue) {
                     $userid = $mobilevalue->id;
                 }
             }
-            if ($mvalue) {
+            if (!empty($mvalue)) {
                 foreach ($mvalue as $key => $emailvalue) {
                     $userid = $emailvalue->id;
                 }
@@ -931,41 +931,41 @@ class Ticket extends BaseController
                 "role_id" => $role_id,
                 "status" => $status,
             );
+            $validdata = array(
+                "first_name" => $this->request->getVar('first_name'),
+                "last_name" => $this->request->getVar('last_name'),
+                "id_type" => $this->request->getVar('id_type') ?: null,
+                "id_number" => $this->request->getVar('id_number') ?: null,
+                //"country_id" => $this->request->getVar('country_id'),
+            );
 
-            if ($this->validation->run($userData, 'user')) {
+            if ($this->validation->run($userData, 'user') && $this->validation->run($userData, 'user')) {
                 $this->db->transStart();
 
                 $userData['password'] = password_hash($password, PASSWORD_DEFAULT);
                 $userid = $this->userModel->insert($userData);
 
-                $validdata = array(
+
+
+
+                $data = array(
                     "user_id" => $userid,
                     "first_name" => $this->request->getVar('first_name'),
                     "last_name" => $this->request->getVar('last_name'),
                     "id_type" => $this->request->getVar('id_type') ?: null,
+                    "country_id" => $this->request->getVar('country_id') ?? null,
                     "id_number" => $this->request->getVar('id_number') ?: null,
-                    //"country_id" => $this->request->getVar('country_id'),
+                    "address" => $this->request->getVar('address') ?: null,
+                    "city" => $this->request->getVar('city') ?: null,
+                    "zip_code" => $this->request->getVar('zip_code') ?: null,
                 );
 
-                if ($this->validation->run($validdata, 'userDetail')) {
-                    $data = array(
-                        "user_id" => $userid,
-                        "first_name" => $this->request->getVar('first_name'),
-                        "last_name" => $this->request->getVar('last_name'),
-                        "id_type" => $this->request->getVar('id_type') ?: null,
-                        "country_id" => $this->request->getVar('country_id') ?? null,
-                        "id_number" => $this->request->getVar('id_number') ?: null,
-                        "address" => $this->request->getVar('address') ?: null,
-                        "city" => $this->request->getVar('city') ?: null,
-                        "zip_code" => $this->request->getVar('zip_code') ?: null,
-                    );
+                $this->userDetailModel->insert($data);
 
-                    $this->userDetailModel->insert($data);
-
-                    $this->db->transComplete();
-                }
+                $this->db->transComplete();
+            } else {
+                return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());
             }
-
             return $userid;
         }
     }
@@ -1673,7 +1673,8 @@ class Ticket extends BaseController
         return $this->response->setJSON($data);
     }
 
-    public function showTag($ticket_id){
+    public function showTag($ticket_id)
+    {
         $this->ticketModel->select('tickets.*,user_details.*,users.*,CONCAT(user_details.first_name," ",user_details.last_name) as passengerName');
         $this->ticketModel->join("user_details", "user_details.user_id = tickets.passanger_id");
         $this->ticketModel->join("users", "users.id = user_details.user_id");
@@ -1688,9 +1689,9 @@ class Ticket extends BaseController
         // dd($data['ticket']);
         // dd($data['tags']);
         return view($this->Viewpath . '\ticket\showtag', $data);
-
     }
-    public function sendMail(){
+    public function sendMail()
+    {
         $email = \Config\Services::email();
 
         $config['protocol'] = 'mail';
@@ -1715,12 +1716,10 @@ class Ticket extends BaseController
             return "Email sent successfully";
         } else {
             echo "<pre>";
-            print_r($email->printDebugger(['headers'])); 
+            print_r($email->printDebugger(['headers']));
             log_message('error', $email->printDebugger(['headers']));
             return "Failed to send email. Check logs for more details.";
             // return false;
         }
     }
-
-
 }
