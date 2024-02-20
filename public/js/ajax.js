@@ -130,16 +130,16 @@ $("#login_mobile").focusout(function () {
                 // console.log(userdetail);
                 // $.each(userdetail, function (index, value) {
 
-                    $("#last_name").val(value.last_name);
-                    $("#first_name").val(value.first_name);
-                    $("#login_mobile").val(value.login_mobile);
-                    $("#login_email").val(value.login_email);
-                    $("#id_type").val(value.id_type);
-                    $("#id_number").val(value.id_number);
-                    // $("#country_id").val(value.country_id);
-                    // $("#city").val(value.city);
-                    // $("#zip_code").val(value.zip_code);
-                    // $("#address").val(value.address);
+                    $("#last_name").val(userdetail.last_name);
+                    $("#first_name").val(userdetail.first_name);
+                    $("#login_mobile").val(userdetail.login_mobile);
+                    $("#login_email").val(userdetail.login_email);
+                    $("#id_type").val(userdetail.id_type);
+                    $("#id_number").val(userdetail.id_number);
+                    // $("#country_id").val(userdetail.country_id);
+                    // $("#city").val(userdetail.city);
+                    // $("#zip_code").val(userdetail.zip_code);
+                    // $("#address").val(userdetail.address);
 
                     console.log(userdetail);
                 // });

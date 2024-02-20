@@ -10,7 +10,7 @@
                 <?php echo $this->include('common/securityupdate') ?>
 
                 <div class="row g-3 justify-content-center">
-                    <div class="col-4">
+                    <div class="col-md-4">
                         <div class="form-group mb-3">
                             <label for="maxtime"><?php echo lang("Localize.max_time_cancel") ?> <abbr title="Required field">*</abbr></label>
                             <input type="text" name="maxtime" value="<?php echo esc(old('maxtime') ?? $maxtime->maxtime) ?>" class="form-control text-capitalize">

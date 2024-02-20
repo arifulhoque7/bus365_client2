@@ -12,11 +12,11 @@
 
                 <div class="row">
 
-                    <div class="col-4">
+                    <div class="col-lg-4">
 
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-lg-4">
 
                         <div class="row">
 
@@ -46,7 +46,7 @@
                         <button type="submit" class="btn btn-success"><?php echo lang("Localize.submit") ?></button>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-lg-4">
 
                     </div>
 

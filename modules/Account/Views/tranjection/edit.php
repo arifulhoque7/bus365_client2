@@ -11,11 +11,11 @@
                 <?php echo $this->include('common/securityupdate') ?>
 
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-lg-4">
 
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-lg-4">
 
                         <div class="row">
 
@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="col-4"></div>
+                    <div class="col-lg-4"></div>
                 </div>
 
                 <br>

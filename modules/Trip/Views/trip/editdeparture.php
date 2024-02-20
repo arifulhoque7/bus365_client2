@@ -3,12 +3,12 @@
 
     <?php foreach ($departure as $key => $departurevalue) : ?>
         <div class="row" id="droping">
-            <div class="col-3 mt-2">
+            <div class="col-md-6 col-xl-3  mt-2">
                 <label for="droptime" class="form-label"><?php echo lang("Localize.select") ?> <?php echo lang("Localize.time") ?> <abbr title="Required field">*</abbr></label>
                 <input type="text" id="droptime" name="droptime[]" class="form-control" value="<?php echo esc(old('time')) ?? $departurevalue->time  ?>" placeholder="Select Time">
             </div>
 
-            <div class="col-3 ">
+            <div class="col-md-6 col-xl-3  ">
                 <label for="dropstand" class="form-label"><?php echo lang("Localize.bus") ?> <?php echo lang("Localize.stand") ?> <abbr title="Required field">*</abbr></label>
                 <select name="dropstand[]" class="form-control testselect1" required>
                     <option value="">None</option>
@@ -24,14 +24,14 @@
                 </select>
             </div>
 
-            <div class="col-3 ">
+            <div class="col-md-6 col-xl-3  ">
                 <label for="dropdetail" class="form-label"><?php echo lang("Localize.details") ?></label>
                 <input type="text" id="detail" name="dropdetail[]" class="form-control" value="<?php echo old('details') ?? $departurevalue->detail ?>" placeholder="<?php echo lang("Localize.detail") ?>">
             </div>
 
             <input type="hidden" name="droptype[]" value="0">
 
-            <div class="col-3 mt-4">
+            <div class="col-md-6 col-xl-3  mt-4">
                 <?php if (!$key) : ?>
                     <a id="boardingadd" class="btn btn-success mt-1 text-white" onclick="addfielddrop()">+</a>
                 <?php else : ?>

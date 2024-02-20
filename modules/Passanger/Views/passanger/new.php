@@ -26,8 +26,8 @@
                             </div>
 
                             <div class="col-md-6 col-xl-3 mt-3">
-                                <label for="login_email"><?php echo lang("Localize.email") ?> <abbr title="Required field">*</abbr></label>
-                                <input type="email" name="login_email" class="form-control" value="<?php echo old('login_email') ?>" placeholder="<?php echo lang("Localize.email") ?>" required />
+                                <label for="login_email"><?php echo lang("Localize.email") ?> </label>
+                                <input type="email" name="login_email" class="form-control" value="<?php echo old('login_email') ?>" placeholder="<?php echo lang("Localize.email") ?>" />
                             </div>
                         </div>
 

@@ -15,7 +15,7 @@
 
     .bus_seat_plan_table td,
     .bus_seat_plan_table th {
-        padding: 8px 13px;
+        padding: 8px 10px;
         text-align: center;
         /* border: 1px solid rgb(205, 205, 205); */
     }
@@ -27,6 +27,22 @@
         height: 45px;
         /* Adjust as needed */
     }
+    @media (max-width: 768px) {
+        .seat-container {
+        width: 30px;
+        /* Adjust as needed */
+        height: 30px;
+        /* Adjust as needed */
+    } 
+    .seat-number {
+        font-size: 10px!important;
+    }
+    .bus_seat_plan_table td,
+    .bus_seat_plan_table th {
+        padding: 8px 6px;
+        /* border: 1px solid rgb(205, 205, 205); */
+    }
+}
 
     .seat-image {
         width: 100%;
@@ -60,7 +76,7 @@ if ($seatRows['total_column'] == 5) {
     $width = '400px';
 }
 ?>
-<div class="body-content">
+
     <div style="
                 border-width: 6px;
                 border-style: solid;
@@ -109,4 +125,3 @@ if ($seatRows['total_column'] == 5) {
             </tbody>
         </table>
     </div>
-</div>

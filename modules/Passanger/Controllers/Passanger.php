@@ -99,7 +99,16 @@ class Passanger extends BaseController
             "status" => 1
         );
 
-        if ($this->validation->run($userData, 'user')) {
+        $validateuserDetailData = array(
+            "first_name" => $this->request->getVar('first_name'),
+            "last_name" => $this->request->getVar('last_name'),
+            "country_id" => $this->request->getVar('country_id'),
+            "address" => $this->request->getVar('address'),
+            "city" => $this->request->getVar('city'),
+            "zip_code" => $this->request->getVar('zip_code'),
+        );
+
+        if ($this->validation->run($userData, 'user') && $this->validation->run($validateuserDetailData, 'userDetail')) {
             $this->db->transStart();
 
             // build hashed passowrd
@@ -108,6 +117,12 @@ class Passanger extends BaseController
             $userId = $this->userModel->insert($userData);
 
             // build user detail model data
+
+
+            // use id type and id number
+            ($idType = $this->request->getVar('id_type')) && $userDetailData['id_type'] = $idType;
+            ($idNumber = $this->request->getVar('id_number')) && $userDetailData['id_number'] = $idNumber;
+
             $userDetailData = array(
                 "user_id" => $userId,
                 "first_name" => $this->request->getVar('first_name'),
@@ -118,18 +133,14 @@ class Passanger extends BaseController
                 "zip_code" => $this->request->getVar('zip_code'),
             );
 
-            // use id type and id number
-            ($idType = $this->request->getVar('id_type')) && $userDetailData['id_type'] = $idType;
-            ($idNumber = $this->request->getVar('id_number')) && $userDetailData['id_number'] = $idNumber;
+            // user detail data is valid
+            // insert data to user details model
+            $this->userDetailModel->insert($userDetailData);
 
-            if ($this->validation->run($userDetailData, 'userDetail')) {
-                // user detail data is valid
-                // insert data to user details model
-                $this->userDetailModel->insert($userDetailData);
-
-                $this->db->transComplete();
-                return redirect()->route('index-passanger')->with("success", "Data Save");
-            }
+            $this->db->transComplete();
+            return redirect()->route('index-passanger')->with("success", "Data Save");
+        } else {
+            return redirect()->back()->withInput()->with('fail', $this->validation->listErrors());
         }
 
         // data is invlaid 

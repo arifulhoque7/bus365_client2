@@ -84,12 +84,12 @@
                         </div>
         
                         <div class="row">
-                            <div class="collapse" id="expand_<?php echo $tripValue->id; ?>">
-                                <div class="card card-body booking-area">
+                            <div class="collapse px-0 px-lg-3" id="expand_<?php echo $tripValue->id; ?>">
+                                <div class="card card-body booking-area px-2 px-md-4">
                                     <div id="dynamicbooking_<?php echo $tripValue->id; ?>">
                                         <div class="row mt-3">
-                                            <div class="col-4" id="seat_<?php echo $tripValue->id; ?>"></div>
-                                            <div class="col-8" id="form_<?php echo $tripValue->id; ?>"></div>
+                                            <div class="col-lg-4" id="seat_<?php echo $tripValue->id; ?>"></div>
+                                            <div class="col-lg-8" id="form_<?php echo $tripValue->id; ?>"></div>
                                         </div>
                                         <hr>
                                         <div class="col-12 text-center">
