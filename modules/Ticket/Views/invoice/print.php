@@ -139,7 +139,7 @@
 
                             <tr>
                                 <td colspan="4" class="text-end">
-                                    <?php echo lang("Localize.sub") ?> <?php echo lang("Localize.total") ?>
+                                    <?php echo lang("Localize.total") ?>
                                 </td>
                                 <td class="text-end">
                                     <?php if ($websetting && $websetting->luggage_service == 1) : ?>
@@ -170,6 +170,20 @@
                                     </td>
                                 </tr>
                             <?php endif ?>
+
+                            <tr>
+                                <td colspan="4" class="text-end">
+                                <?php echo lang("Localize.sub") ?><?php echo lang("Localize.total") ?>
+                                </td>
+                                <td class="text-end">
+                                    <?php if ($websetting && $websetting->luggage_service == 1) : ?>
+                                        <?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price + $ticket->parking_boy_commission, 2) + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg)- $ticket->discount -$ticket->roundtrip_discount; ?>
+                                    <?php else : ?>
+                                        <?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price + $ticket->parking_boy_commission, 2)- $ticket->discount -$ticket->roundtrip_discount; ?>
+                                    <?php endif ?>
+                                </td>
+
+                            </tr>
 
                             <tr>
                                 <td colspan="4" class="text-end">
