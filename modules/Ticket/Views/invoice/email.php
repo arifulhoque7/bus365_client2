@@ -662,6 +662,28 @@
                                 Payment Details
                                 <tr>
                                   <td width="80%" class="purchase_item"><span
+                                      class="f-fallback"><?php echo lang("Localize.total") ?> <?php echo lang("Localize.luggage") ?> <?php echo lang("Localize.fee") ?> (<?php echo $ticket->paid_max_luggage_pcs ?>Pcs) </span></td>
+                                  <td class="align-right" width="20%"
+                                    class="purchase_item"><span
+                                      class="f-fallback"><?php echo  $ticket->paid_max_luggage_pcs * $ticket->price_pcs; ?></span></td>
+                                </tr>
+                                <tr>
+                                  <td width="80%" class="purchase_item"><span
+                                      class="f-fallback"><?php echo lang("Localize.total") ?> <?php echo lang("Localize.luggage") ?> <?php echo lang("Localize.fee") ?> (<?php echo  $ticket->paid_max_luggage_kg ?> Kg) </span></td>
+                                  <td class="align-right" width="20%"
+                                    class="purchase_item"><span
+                                      class="f-fallback"><?php echo  $ticket->paid_max_luggage_kg * $ticket->price_kg; ?></span></td>
+                                </tr>
+                                <tr>
+                                  <td width="80%" class="purchase_item"><span
+                                      class="f-fallback"> <?php echo lang("Localize.total") ?> </span></td>
+                                  <td class="align-right" width="20%"
+                                    class="purchase_item"><span
+                                      class="f-fallback"><?php echo  round($ticket->price + $ticket->parking_boy_commission, 2) + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg); ?></span></td>
+                                </tr>
+
+                                <tr>
+                                  <td width="80%" class="purchase_item"><span
                                       class="f-fallback">Discount </span></td>
                                   <td class="align-right" width="20%"
                                     class="purchase_item"><span
@@ -677,6 +699,14 @@
                                     </td>
                                   </tr>
                                 <?php endif ?>
+                                <tr>
+                                  <td width="80%" class="purchase_item"><span
+                                      class="f-fallback">Sub total </span></td>
+                                  <td class="align-right" width="20%"
+                                    class="purchase_item"><span
+                                      class="f-fallback"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price + $ticket->parking_boy_commission, 2) + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg) - $ticket->discount - $ticket->roundtrip_discount; ?></span></td>
+                                </tr>
+
                                 <tr>
                                   <td width="80%" class="purchase_item"><span
                                       class="f-fallback">Total Tax</span></td>

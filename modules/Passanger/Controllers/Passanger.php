@@ -166,6 +166,14 @@ class Passanger extends BaseController
 
     public function update($id)
     {
+        $validateuserDetailData = array(
+            "first_name" => $this->request->getVar('first_name'),
+            "last_name" => $this->request->getVar('last_name'),
+            "country_id" => $this->request->getVar('country_id'),
+            "address" => $this->request->getVar('address'),
+            "city" => $this->request->getVar('city'),
+            "zip_code" => $this->request->getVar('zip_code'),
+        );
         $userDetailsData = array(
             "id" => $id,
             "user_id" => $this->request->getVar('user_id'),
@@ -179,7 +187,7 @@ class Passanger extends BaseController
             "zip_code" => $this->request->getVar('zip_code'),
         );
 
-        if ($this->validation->run($userDetailsData, 'userDetail')) {
+        if ($this->validation->run($validateuserDetailData, 'userDetail')) {
             $this->userDetailModel->save($userDetailsData);
             return redirect()->route('index-passanger')->with("success", "Data Save");
         }

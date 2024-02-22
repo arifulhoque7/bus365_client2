@@ -33,13 +33,13 @@
 
                         <div class="row">
                             <div class="col-md-6 col-xl-3 mt-3">
-                                <label for="id_type"><?php echo lang("Localize.id_type") ?></label>
-                                <input type="text" name="id_type" class="form-control" value="<?php echo old('id_type') ?>" placeholder="<?php echo lang("Localize.nid_passport") ?>" />
+                                <label for="id_type"><?php echo lang("Localize.id_type") ?><abbr title="Required field">*</abbr></label>
+                                <input type="text" name="id_type" class="form-control" value="<?php echo old('id_type') ?>" placeholder="<?php echo lang("Localize.nid_passport") ?>" required />
                             </div>
 
                             <div class="col-md-6 col-xl-3 mt-3">
-                                <label for="id_number"><?php echo lang("Localize.nid_passport_number") ?></label>
-                                <input type="text" name="id_number" class="form-control" value="<?php echo old('id_number') ?>" placeholder="<?php echo lang("Localize.nid_passport_number") ?>" />
+                                <label for="id_number"><?php echo lang("Localize.nid_passport_number") ?><abbr title="Required field">*</abbr></label>
+                                <input type="text" name="id_number" class="form-control" value="<?php echo old('id_number') ?>" placeholder="<?php echo lang("Localize.nid_passport_number") ?>" required />
                             </div>
 
                             <div class="col-md-6 col-xl-3 mt-3">
