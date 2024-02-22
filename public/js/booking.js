@@ -601,12 +601,37 @@ function dynamichtml(result, id) {
   });
 
   $parkingBoyCommission
-    .addClass("col-12 mt-2")
+    .addClass("col-6 mt-2")
     .append([$parkingBoyCommissionLbl, $parkingBoyCommissionInp]);
+
+    var $discountVal = $("<div/>"),
+    $discountValLbl = $("<label/>"),
+    $discountValInp = $("<input/>");
+
+    $discountValLbl
+    .attr("for", `discountVal${id}`)
+    .addClass("form-label text-capitalize")
+    .text("Discount");
+
+    $discountValInp.attr({
+    type: "number",
+    id: `discountVal${id}`,
+    class: "form-control",
+    name: `discountVal`,
+    value: "0.00",
+    min: 0.0,
+    step: 0.01,
+    tabindex: 1,
+    onchange: `discountVal(this, ${id})`,
+  });
+
+  $discountVal
+    .addClass("col-6 mt-2")
+    .append([$discountValLbl, $discountValInp]);
 
   // html += $childSeatCount.prop('outerHTML') + $specialSeatCount.prop('outerHTML') + $adultSeatCount.prop('outerHTML');
   html +=
-    $adultSeatCount.prop("outerHTML") + $parkingBoyCommission.prop("outerHTML");
+    $adultSeatCount.prop("outerHTML") ;
 
   if (websetting.luggage_service == 1) {
     html +=
@@ -618,6 +643,7 @@ function dynamichtml(result, id) {
       $priceKg.prop("outerHTML") +
       $specialLuggage.prop("outerHTML");
   }
+  html += $parkingBoyCommission.prop("outerHTML") + $discountVal.prop("outerHTML");
 
   // Pick location and drop location
   var $pick = $("<div/>"),
@@ -847,7 +873,7 @@ function dynamichtml(result, id) {
     "parking"
   )} ${bdtaskIlmCommonJs.lang.getPhrase(
     "boy"
-  )} ${bdtaskIlmCommonJs.lang.getPhrase("price")}</h6>`;
+  )} ${bdtaskIlmCommonJs.lang.getPhrase("commission")}</h6>`;
   html += "</div>";
 
   html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
@@ -858,6 +884,32 @@ function dynamichtml(result, id) {
   html += '   <h6 class="form-label" id="parkingboycommission' + id + '">0</h6>';
   html += "</div>";
 
+
+  html += "<hr>";
+
+  html += '<div class="col-6  col-lg-4">';
+  html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase("total")}</h6>`;
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
+  html += '   <h6 class="form-label" ></h6>';
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
+  html += '   <h6 class="form-label" id="total' + id + '">0</h6>';
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4">';
+  html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase("discount")}</h6>`;
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
+  html += '   <h6 class="form-label" ></h6>';
+  html += "</div>";
+
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
+  html += '   <h6 class="form-label" id="discountshow' + id + '">0</h6>';
+  html += "</div>";
 
   html += "<hr>";
 
@@ -880,15 +932,15 @@ function dynamichtml(result, id) {
     "tax"
   )}</h6>`;
   html += "</div>";
-
   html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
   html += '   <h6 class="form-label" ></h6>';
   html += "</div>";
-
+  
   html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
   html += '   <h6 class="form-label" id="totaltax' + id + '">0</h6>';
   html += "</div>";
-
+  
+  html += "<hr>";
   html += '<div class="col-6  col-lg-4">';
   html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
     "grand"
@@ -1033,6 +1085,16 @@ function parkingBoyCommisssion(pbcommission, subtripid) {
   toprice(subtripid);
 }
 
+function discountVal(discount, subtripid) {
+  var $field = $(discount),
+    originalValue = parseFloat($field.val()) || 0.0;
+
+  $field.val(originalValue.toFixed(2));
+  $("#discountshow" + subtripid).text(originalValue.toFixed(2));
+
+  toprice(subtripid);
+}
+
 // function specialseat(cseat, subtripid) {
 //   var $field = $(cseat),
 //     maxSpecial = $field.prop("max"),
@@ -1062,20 +1124,23 @@ function toprice(subtripid) {
   var totalLuggagePricePcs = $("#totalpaidluggagepcs" + subtripid).text();
   var totalLuggagePriceKg = $("#totalpaidluggagekg" + subtripid).text();
   var parkingBoyCommission = $("#parkingboycommission" + subtripid).text();
+  var discount = $("#discountshow" + subtripid).text();
   var totalprice = parseInt(aprice);
   var subbtotal = 0;
+  var total = 0;  
   if (websetting.luggage_service == 1) {
-    subbtotal =
+    total =
       totalprice +
       parseFloat(totalLuggagePricePcs) +
       parseFloat(totalLuggagePriceKg);
   } else {
-    subbtotal = totalprice;
+    total = totalprice;
   }
-  subbtotal = parseFloat(subbtotal) + parseFloat(parkingBoyCommission);
+  total = parseFloat(total) + parseFloat(parkingBoyCommission);
+  subbtotal = parseFloat(total) - parseFloat(discount);
   // console.log(parseInt(cprice),parseInt(sprice),parseInt(aprice),parseFloat(totalLuggagePricePcs),parseFloat(totalLuggagePriceKg));
   $("#totalprice" + subtripid).text(totalprice);
-
+  $("#total" + subtripid).text(total);
   $("#subtotal" + subtripid).text(subbtotal);
   taxcaltulation(subtripid, subbtotal);
 }
@@ -1103,7 +1168,7 @@ function taxcaltulation(subtripid, totalvalue) {
     grandtotal = totalvalue;
   } else {
     grandtotal = parseFloat(total) + parseFloat(totalvalue);
-    // grandtotal = parseFloat(grandtotal).toFixed(2);
+    grandtotal = parseFloat(grandtotal).toFixed(2);
   }
   $("#totaltax" + subtripid).text(parseFloat(total).toFixed(2));
   $("#grandtotal" + subtripid).text(grandtotal);
@@ -1121,6 +1186,7 @@ function formsubmit(index, subtripid) {
     pickstand = $("#pickupstand" + subtripid).val(),
     dropstand = $("#dropstand" + subtripid).val(),
     parkingBoyCommission = parseFloat($("#parking_boy_commission" + subtripid).val()).toFixed(2),
+    discount = parseFloat($("#discountVal" + subtripid).val()).toFixed(2),
     journeydate = $("#journeydate").val();
 
   if (websetting.luggage_service == 1) {
@@ -1221,6 +1287,7 @@ function formsubmit(index, subtripid) {
   $("#tax").val(tax);
   $("#grandtotal").val(grandtotal);
   $("#parkingboycommission").val(parkingBoyCommission);
+  $("#discountVal").val(discount);
 
   if (websetting.luggage_service == 1) {
     $("#free_luggage_pcs").val(free_luggage_pcs);
@@ -1260,7 +1327,8 @@ function formsubmit(index, subtripid) {
       price_pcs: price_pcs,
       price_kg: price_kg,
       special_luggage: special_luggage,
-      parking_boy_commission : parkingBoyCommission
+      parking_boy_commission : parkingBoyCommission,
+      discount : discount,
     },
     success: function (response) {
       console.log(response);

@@ -32,6 +32,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <input type="hidden" name="price_pcs" id="price_pcs" value="<?php echo $price_pcs; ?>">
             <input type="hidden" name="price_kg" id="price_kg" value="<?php echo $price_kg; ?>">
             <input type="hidden" name="special_luggage" id="special_luggage" value="<?php echo $special_luggage; ?>">
+
             
 
 
@@ -47,6 +48,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <input type="hidden" name="journeydate" id="journeydate" value="<?php echo $journeydate; ?>">
             <input type="hidden" name="roundtrip_discount" id="roundtrip_discount" value="<?php echo $roundtrip_discount; ?>">
             <input type="hidden" name="parking_boy_commission"  id="parking_boy_commission" value="<?php echo $parkingboycommission; ?>">
+            <input type="hidden" name="discount" id="discount" value="<?php echo $discount; ?>">
 
             <div class="booking-passangers mb-4">
                 <div class="row">
@@ -123,23 +125,23 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-lg-4 form-group" id="couponcode">
-                        <label for="coupon"><?php echo lang("Localize.apply") ?> <?php echo lang("Localize.coupon") ?></label>
-                        <input type="text" name="offerer" id="coupon" class="form-control" placeholder="<?php echo lang("Localize.coupon") ?>">
+                    <!-- <div class="col-lg-4 form-group" id="couponcode">
+                        <label for="coupon"><?php //echo lang("Localize.apply") ?> <?php //echo lang("Localize.coupon") ?></label>
+                        <input type="text" name="offerer" id="coupon" class="form-control" placeholder="<?php //echo lang("Localize.coupon") ?>">
                         <small id="couponmessage"></small>
                     </div>
 
-                    <?php if ($discount == 1) : ?>
+                    <?php //if ($discount == 1) : ?>
                         <div class="col-lg-4 form-group" id="less">
-                            <label for="discount"><?php echo lang("Localize.discount") ?> </label>
+                            <label for="discount"><?php //echo lang("Localize.discount") ?> </label>
                             <input type="text" name="discount" id="discount" class="form-control" value="0">
                         </div>
-                    <?php else : ?>
+                    <?php //else : ?>
                         <div class="col-lg-4 form-group" id="less">
-                            <label for="discount"><?php echo lang("Localize.discount") ?> </label>
+                            <label for="discount"><?php //echo lang("Localize.discount") ?> </label>
                             <input type="text" name="discount" id="discount" class="form-control" value="0" readonly>
                         </div>
-                    <?php endif ?>
+                    <?php //endif ?> -->
 
                     <div class="col-lg-4 form-group" id="partial">
                         <label for="partialpay"><?php echo lang("Localize.partial") ?> <?php echo lang("Localize.payment") ?> <?php echo lang("Localize.amount") ?> </label>
