@@ -24,13 +24,13 @@
     </div>
     
     <div class="col-lg-4 form-group">
-        <label for="id_type"><?php echo lang("Localize.id_type") ?></label>
-        <input type="text" name="id_type" class="form-control" id="id_type" value="<?php echo old('id_type') ?>" placeholder="<?php echo lang("Localize.nid_passport") ?>" aria-label="Passport/Nid">
+        <label for="id_type"><?php echo lang("Localize.id_type") ?><abbr class="required" title="Required field">*</abbr></label>
+        <input type="text" name="id_type" class="form-control" id="id_type" value="<?php echo old('id_type') ?>" placeholder="<?php echo lang("Localize.nid_passport") ?>" aria-label="Passport/Nid" required>
     </div>
     
     <div class="col-lg-4 form-group">
-        <label for="id_number"><?php echo lang("Localize.nid_passport_number") ?></label>
-        <input type="text" name="id_number" class="form-control" id="id_number" value="<?php echo old('id_number') ?>" placeholder="<?php echo lang("Localize.nid_passport_number") ?>" aria-label="Nid/Passport Number">
+        <label for="id_number"><?php echo lang("Localize.nid_passport_number") ?><abbr class="required" title="Required field">*</abbr></label>
+        <input type="text" name="id_number" class="form-control" id="id_number" value="<?php echo old('id_number') ?>" placeholder="<?php echo lang("Localize.nid_passport_number") ?>" aria-label="Nid/Passport Number" required>
     </div>
 </div>
 

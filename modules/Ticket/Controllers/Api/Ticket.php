@@ -851,8 +851,8 @@ class Ticket extends BaseController
             $ticket->total_paid_luggage_price_kg = $total_paid_luggage_price_kg;
 
             $ticket->total_luggage_price = ((int)$ticket->paid_max_luggage_pcs * (float)$ticket->price_pcs) + ((float)$ticket->paid_max_luggage_kg * (float)$ticket->price_kg);
-
-            $ticket->sub_total = (float)$ticket->price - (float)$ticket->discount + (float)$ticket->total_luggage_price;
+            $ticket->total = (float)$ticket->price + (float)$ticket->total_luggage_price;
+            $ticket->sub_total =  (float)$ticket->total - (float)$ticket->discount;
             $ticket->grand_total = (float)$ticket->sub_total + (float)$ticket->totaltax;
 
             $data = [
