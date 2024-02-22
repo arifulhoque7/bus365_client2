@@ -216,6 +216,7 @@
                     <input type="hidden" id="price_kg" name="price_kg">
                     <input type="hidden" id="special_luggage" name="special_luggage">
                     <input type="hidden" id="parkingboycommission" name="parkingboycommission">
+                    <input type="hidden" id="discountVal" name="discountVal">
 
 
         

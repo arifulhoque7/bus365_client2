@@ -61,6 +61,6 @@
 <div class="row">
     <div class="col-12 form-group">
         <label for="address"><?php echo lang("Localize.address") ?></label>
-        <textarea class="form-control" name="address" id="address" rows="3" required><?php echo old('address') ?></textarea>
+        <textarea class="form-control" name="address" id="address" rows="3" ><?php echo old('address') ?></textarea>
     </div>
 </div>

@@ -613,6 +613,7 @@ class Ticket extends BaseController
             $singleTripData['price_kg'] = $this->request->getVar('price_kg');
             $singleTripData['special_luggage'] = $this->request->getVar('special_luggage');
             $singleTripData['parkingboycommission'] = $this->request->getVar('parkingboycommission');
+            $singleTripData['discount'] = $this->request->getVar('discountVal');
 
 
 
@@ -653,6 +654,8 @@ class Ticket extends BaseController
             $data['price_kg'] = $this->request->getVar('price_kg');
             $data['special_luggage'] = $this->request->getVar('special_luggage');
             $data['parkingboycommission'] = $this->request->getVar('parkingboycommission');
+            $data['discount'] = $this->request->getVar('discountVal');
+
 
 
 
@@ -683,7 +686,7 @@ class Ticket extends BaseController
             $heading = lang("Localize.book") . ' ' . lang("Localize.ticket");
             $data['pageheading'] = $heading;
 
-            $data['discount'] = $this->session->get('discount');
+            // $data['discount'] = $this->session->get('discount');
             $data['rountripStatus'] = 0;
             $data['isrountrip'] = 0;
 
