@@ -150,7 +150,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
 
                     <div class="col-lg-4 form-group" id="detailpay">
                         <label for="paydetail"><?php echo lang("Localize.payment") ?> <?php echo lang("Localize.details") ?></label>
-                        <input type="text" name="paydetail" class="form-control" value="<?php echo old('paydetail') ?>" placeholder="<?php echo lang("Localize.payment") ?> <?php echo lang("Localize.details") ?>" aria-label="Payment Detail">
+                        <input type="text" name="paydetail" class="form-control" id="paydetail" value="<?php echo old('paydetail') ?>" placeholder="<?php echo lang("Localize.payment") ?> <?php echo lang("Localize.details") ?>" aria-label="Payment Detail">
                     </div>
                 </div>
             </div>
@@ -164,15 +164,31 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <div class="row">
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success" id="submit-booking"><?php echo lang("Localize.submit") ?></button>
+                    <button type="button" class="btn btn-success" id="mpesa-pay" style="display: none;"><?php echo lang("Localize.mpesa_pay_now") ?></button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
+<div class="modal fade" id="MpesaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?php echo lang("Localize.mpesa_pay_now") ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">Please wait for 10 Seconds and Dont try to refresh this page!!</h3>
+                 <h4 class="text-center">Need to Validated this Payment, Stay with us.</h4>
+                <p class="text-center" id="mpesaMsg"></p>
+            </div>
+        </div>
+    </div>
+</div>
 <?php echo $this->endSection() ?>
 
 <?php echo $this->section('js') ?>
 <script src="<?php echo base_url('public/js/booking.js').'?v='.time(); ?>"></script>
 <script src="<?php echo base_url('public/js/ajax.js'); ?>"></script>
+<script src="<?php echo base_url('public/js/mpesa.js'); ?>"></script>
 <?php echo $this->endSection() ?>

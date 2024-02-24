@@ -457,7 +457,7 @@ class Paymentgateway extends BaseController
                         'message' => 'Please Enter your Mpesa Pin Number.',
                         'status' => "Success",
                         'checkout_request_id'=>$ResponseCode['checkout_request_id'],
-                        //'transection_id'=>$ResponseCode['transection_id'],
+                        'transection_id'=>$ResponseCode['transection_id'],
                         'response' => 200,
                     ];
                 
@@ -476,16 +476,17 @@ class Paymentgateway extends BaseController
     public function mpesa_validate(){
         
 
-        $authorizationHeader  = $this->request->getHeader('Authorization');
-        if ($authorizationHeader !== null) {
-            // Extract the token without 'Bearer' prefix and any white spaces
-            //$token = trim(str_replace('Bearer', '', $authorizationHeader));
-            $parts = explode(' ', $authorizationHeader);
+        // $authorizationHeader  = $this->request->getHeader('Authorization');
+        // if ($authorizationHeader !== null) {
+        //     // Extract the token without 'Bearer' prefix and any white spaces
+        //     //$token = trim(str_replace('Bearer', '', $authorizationHeader));
+        //     $parts = explode(' ', $authorizationHeader);
 
-            // Get the token (the second part)
-            $token = trim($parts[2] ?? '');
-        } 
+        //     // Get the token (the second part)
+        //     $token = trim($parts[2] ?? '');
+        // } 
         $CheckoutRequestID  = $this->request->getVar('checkout_request_id');
+        $transection_id  = $this->request->getVar('transection_id');
         
         $getPayData = $this->MpesaModel->first();
         // $data['tokken'] = $token;
@@ -505,7 +506,7 @@ class Paymentgateway extends BaseController
         $Password = base64_encode($BusinessShortCode . $passkey . $Timestamp);
         //THIS IS THE UNIQUE ID THAT WAS GENERATED WHEN STK REQUEST INITIATED SUCCESSFULLY
         //$CheckoutRequestID = $this->stk_push();
-        $queryheader = ['Content-Type:application/json', 'Authorization:Bearer ' .  $token];
+        $queryheader = ['Content-Type:application/json', 'Authorization:Bearer ' .  $transection_id];
         # initiating the transaction
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $query_url);
