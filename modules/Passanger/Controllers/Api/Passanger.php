@@ -115,6 +115,9 @@ class Passanger extends BaseController
         if ($type == "mobile") {
             $userdetail = $this->userModel->join('user_details', 'user_details.user_id = users.id', 'left')->where('role_id', 3)->where('status', 1)->where('login_mobile', $segment)->first();
         }
+        if($type == "nid"){
+            $userdetail = $this->userModel->join('user_details', 'user_details.user_id = users.id', 'left')->where('role_id', 3)->where('status', 1)->where('id_number', $segment)->first();
+        }
 
         if ($userdetail) {
             $pass = $userdetail->password;

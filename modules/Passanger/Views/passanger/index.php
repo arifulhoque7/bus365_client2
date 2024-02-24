@@ -48,7 +48,7 @@
                             <tr>
                                 <th scope="row"><?php echo $kye + 1; ?></th>
                                 <td><?php echo $value->first_name . ' ' . $value->last_name; ?></td>
-                                <td><?php echo date("F j, Y", strtotime($value->created_at)) ?></td>
+                                <td><?php  echo ($value->created_at) ? date("F j, Y", strtotime($value->created_at)) : ''; ?></td>
                                 <td><?php echo $value->login_email; ?></td>
                                 <td><?php echo $value->login_mobile; ?></td>
                                 <td><?php echo $value->id_type; ?></td>

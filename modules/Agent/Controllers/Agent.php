@@ -239,7 +239,17 @@ class Agent extends BaseController
             "login_mobile" => $this->request->getVar('login_mobile'),
         );
 
-        if ($this->validation->run($userData, 'user')) {
+        $data =array(
+            "login_email" => $this->request->getVar('login_email'),
+            "login_mobile" => $this->request->getVar('login_mobile'),
+        );
+        $validationRules = [
+            'login_email' => "required|valid_email|is_unique[users.login_email,id,$userId]",
+            'login_mobile' => "required|numeric|is_unique[users.login_mobile,id,$userId]",
+        ];
+        $validation = \Config\Services::validation();
+
+        if ($validation->setRules($validationRules)->run($data)) {
             // insert data to user model
             $this->userModel->save($userData);
 
