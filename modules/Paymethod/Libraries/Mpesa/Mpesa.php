@@ -108,7 +108,8 @@ class Mpesa
             // $msg=$this->quary($CheckoutRequestID);
             $data2=[
                 'status'=>1,
-                'checkout_request_id'=>$data->CheckoutRequestID
+                'checkout_request_id'=>$data->CheckoutRequestID,
+                'transection_id'=>$this->accessToken()
             ];
             return $data2;
         }else{
