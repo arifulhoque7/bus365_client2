@@ -45,6 +45,12 @@ use Modules\Luggage\Models\LuggagesettingModel;
 //tag model
 use Modules\Ticket\Models\TagModel;
 
+//sms model
+use Modules\Website\Models\SmsTemplateModel;
+use Modules\Website\Models\SmsModel;
+use Modules\Website\Libraries\SmsLibrary;
+use Modules\Website\Libraries\SmsTemplateGenerate;
+
 class Ticket extends BaseController
 {
     use ResponseTrait;
@@ -83,6 +89,10 @@ class Ticket extends BaseController
     private $layoutDetailsModel;
     private $luggageSettingModel;
     private $tagModel;
+    protected $sms_templateModel;
+    protected $smsModel;  
+    protected $smsLibrary;
+    protected $smsTemplateGenerate;
 
     public function __construct()
     {
@@ -127,6 +137,10 @@ class Ticket extends BaseController
         $this->layoutDetailsModel = new LayoutDetailsModel();
         $this->luggageSettingModel = new LuggagesettingModel();
         $this->tagModel = new TagModel();
+
+        $this->sms_templateModel = new SmsTemplateModel();
+        $this->smsModel = new SmsModel();
+        $this->smsLibrary = new SmsLibrary();
     }
 
     function new()
@@ -891,6 +905,21 @@ class Ticket extends BaseController
             $this->db->transComplete();
             $emaildata = $ticketmailLibrary->getticketEmailData($rand);
             $status = sendTicket($login_email, $emaildata);
+
+            //send sms
+            // dd($emaildata);
+            // $sms_settings = $this->smsModel->first();
+            // $dynamic_value=array(
+            //     'merchant_id' =>$sms_settings->sender_id,
+            //     'transection_id' =>'66RRh022',
+            //     'amount' => 1000
+            //     );
+            // $template_sms =$this->sms_templateModel->find(2);
+            // $message= $template_sms->description;
+            // $SendSMS  = new SmsTemplateGenerate($message, $dynamic_value);
+            // $body=$SendSMS->sms_msg_generate();
+            // return $this->response->setJSON($body);
+            // $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,'254708374149',$body,$sms_settings->api_key);
 
             if ($status == true) {
                 return redirect()->route('allbookinglist-ticket')->with("success", "Ticket created successfully");

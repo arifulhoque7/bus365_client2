@@ -16,6 +16,9 @@ $(document).ready(function () {
 $("#mpesa-pay").click(function () {
     var mobile = $('#login_mobile').val();
     var amount = $('#grandtotal').val();
+    var $env = $(this),
+    $eloaderTarget = $env.parent();
+    bdtaskIlmCommonJs.elemLoader.show($eloaderTarget, 20, false);
 
     if(mobile==''){
         alert('Mpesa Registered Mobile Number is Required');
@@ -29,8 +32,8 @@ $("#mpesa-pay").click(function () {
             method: "POST",
             url: url,
             data: { 
-                phone: '254708374149', //+ mobile, 
-                amount: '1' //amount
+                phone: mobile, 
+                amount: 1
             },
             success: function (data) {
                  alert(data.message);
@@ -42,6 +45,8 @@ $("#mpesa-pay").click(function () {
                     }, 10000);
                     
                 } 
+
+                bdtaskIlmCommonJs.elemLoader.hide($eloaderTarget, 20, false);
             }
 
         });
