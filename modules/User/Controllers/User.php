@@ -127,22 +127,21 @@ class User extends BaseController
         // build user id and role id
         $roleId = $this->session->get('role_id');
         $userId = $this->session->get('user_id');
-
         // build details model name
         // agentDetails if role id equals 2. rest is userDetails
         $detailsModel = ($roleId == 2) ? 'agentDetailModel' : 'userDetailModel';
         $validateRuleGroup = ($roleId == 2) ? 'agent' : 'userDetail';
-
         // build user info and user details info
         $userdata = $this->{$detailsModel}->where('user_id', $userId)->first();;
+        // dd($userdata->user_id);
 
         $validdata = array(
             "first_name" => $this->request->getVar('first_name'),
             "last_name" => $this->request->getVar('last_name'),
             "id_type" => $this->request->getVar('id_type') ?: null,
             "id_number" => $this->request->getVar('id_number') ?: null,
-            "country_id" => $this->request->getVar('country_id'),
         );
+        // dd($userdata->id == );
 
         $updateData = array(
             "id" => $userdata->id,
@@ -157,7 +156,15 @@ class User extends BaseController
             "zip" => $this->request->getVar('zip_code'),
         );
 
-        if ($this->validation->run($validdata, $validateRuleGroup)) {
+        $validationRules = [
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'id_type' => 'permit_empty|string',
+            'id_number' =>'permit_empty|string|'. ($userId == $userdata->user_id ? '' : 'is_unique[user_details.id_number,id,{id}]'),
+        ];
+
+        $validation = \Config\Services::validation();
+        if ($validation->setRules($validationRules)->run($validdata)) {
             // data is valid
             // do update
             $this->{$detailsModel}->save($updateData);
