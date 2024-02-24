@@ -12,9 +12,9 @@
 
 
                 <div class="row">
-                    <div class="col-lg-4"></div>
+                    <div class="col-4"></div>
 
-                    <div class="col-lg-4">
+                    <div class="col-4">
 
                         <div class="row">
                             <div class="col-12">
@@ -74,7 +74,7 @@
 
                     </div>
 
-                    <div class="col-lg-4"></div>
+                    <div class="col-4"></div>
 
                 </div>
             </form>

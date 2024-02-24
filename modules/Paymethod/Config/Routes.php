@@ -77,6 +77,7 @@ $routes->group('modules/api/v1/paymethods', ["filter" => "cors", "namespace" => 
 
     $routes->group('mpesa', function ($routes) {
         $routes->post('mpesa_pay', 'Paymentgateway::mpesa_pay');
+        $routes->post('mpesa-validate', 'Paymentgateway::mpesa_validate');
         $routes->post('mpesa-callback', 'Paymentgateway::mpesa_callback');
         // $routes->post('register_url', 'Paymentgateway::register_url');
     });

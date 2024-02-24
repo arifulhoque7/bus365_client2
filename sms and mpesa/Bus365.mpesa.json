@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "c09db846-dd10-4ddd-9944-85be04e744ec",
+		"name": "Bus365",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15648107",
+		"_collection_link": "https://www.postman.com/salman-123/workspace/hrm-attendance/collection/15648107-c09db846-dd10-4ddd-9944-85be04e744ec?action=share&source=collection_link&creator=15648107"
+	},
+	"item": [
+		{
+			"name": "http://192.168.1.240/bus365/backend/modules/api/v1/website/sms/send_sms",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "mobile",
+							"value": "254723602610",
+							"type": "text"
+						},
+						{
+							"key": "body",
+							"value": "I hope you got my sms. right?",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.1.240/bus365/backend/modules/api/v1/website/sms/send_sms",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"240"
+					],
+					"path": [
+						"bus365",
+						"backend",
+						"modules",
+						"api",
+						"v1",
+						"website",
+						"sms",
+						"send_sms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://192.168.1.240/bus365/backend/modules/api/v1/paymethods/mpesa/mpesa_pay",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "phone",
+							"value": "254723602610",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.1.240/bus365/backend/modules/api/v1/paymethods/mpesa/mpesa_pay",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"240"
+					],
+					"path": [
+						"bus365",
+						"backend",
+						"modules",
+						"api",
+						"v1",
+						"paymethods",
+						"mpesa",
+						"mpesa_pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://192.168.1.240/bus365/backend/modules/api/v1/paymethods/mpesa",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.1.240/bus365/backend/modules/api/v1/paymethods/mpesa",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"240"
+					],
+					"path": [
+						"bus365",
+						"backend",
+						"modules",
+						"api",
+						"v1",
+						"paymethods",
+						"mpesa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://a872-182-160-105-186.ngrok-free.app/bus365/backend/modules/api/v1/paymethods/mpesa/mpesa-callback",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Body\": {\r\n    \"stkCallback\": {\r\n      \"MerchantRequestID\": \"8352-54996773-1\",\r\n      \"CheckoutRequestID\": \"ws_CO_25072023013319541723547186\",\r\n      \"ResultCode\": 0,\r\n      \"ResultDesc\": \"The service request is processed successfully.\",\r\n      \"CallbackMetadata\": {\r\n        \"Item\": [\r\n          {\r\n            \"Name\": \"Amount\",\r\n            \"Value\": 1.00\r\n          },\r\n          {\r\n            \"Name\": \"MpesaReceiptNumber\",\r\n            \"Value\": \"RGP6CZDYG6\"\r\n          },\r\n          {\r\n            \"Name\": \"Balance\"\r\n          },\r\n          {\r\n            \"Name\": \"TransactionDate\",\r\n            \"Value\": 20230725013147\r\n          },\r\n          {\r\n            \"Name\": \"PhoneNumber\",\r\n            \"Value\": 254723547186\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://a872-182-160-105-186.ngrok-free.app/bus365/backend/modules/api/v1/paymethods/mpesa/mpesa-callback",
+					"protocol": "https",
+					"host": [
+						"a872-182-160-105-186",
+						"ngrok-free",
+						"app"
+					],
+					"path": [
+						"bus365",
+						"backend",
+						"modules",
+						"api",
+						"v1",
+						"paymethods",
+						"mpesa",
+						"mpesa-callback"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

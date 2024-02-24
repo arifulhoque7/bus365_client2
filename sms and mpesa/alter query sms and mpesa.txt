@@ -1,0 +1,100 @@
+INSERT INTO `menus` (`id`, `menu_title`, `page_url`, `module_name`, `parent_menu_id`, `have_chield`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, 'sms', 'websitesetting/websitesetting/sms', 'Website', '118', NULL, '1', '2022-05-19 13:01:27', '2023-01-21 10:11:39', NULL);
+INSERT INTO `bus365`.`menus` (`menu_title`, `page_url`, `module_name`, `parent_menu_id`, `created_by`, `created_at`, `updated_at`) VALUES ('sms_template', 'websitesetting/websitesetting/sms_template', 'Website', '118', '1', '2022-05-19 13:01:27', '2023-01-21 10:11:39');
+INSERT INTO `permissions` (`id`, `role_id`, `user_id`, `menu_id`, `menu_title`, `create`, `read`, `edit`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '1', '1', '137', 'sms', '1', '1', '1', '1', '2022-06-13 17:48:10', '2023-01-21 10:11:39', NULL);
+
+INSERT INTO `permissions` (`id`, `role_id`, `user_id`, `menu_id`, `menu_title`, `create`, `read`, `edit`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '2', '1', '137', 'sms', '0', '0', '0', '0', '2022-06-27 17:28:34', '2023-01-21 10:11:39', NULL);
+
+INSERT INTO `permissions` (`id`, `role_id`, `user_id`, `menu_id`, `menu_title`, `create`, `read`, `edit`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '4', '1', '137', 'sms', '0', '0', '0', '0', '2024-02-07 13:01:01', '2024-02-07 13:01:01', NULL);
+
+INSERT INTO `permissions` (`id`, `role_id`, `user_id`, `menu_id`, `menu_title`, `create`, `read`, `edit`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '1', '1', '138', 'sms_template', '1', '1', '1', '1', '2022-06-13 17:48:10', '2023-01-21 10:11:39', NULL);
+
+INSERT INTO `permissions` (`id`, `role_id`, `user_id`, `menu_id`, `menu_title`, `create`, `read`, `edit`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '2', '1', '138', 'sms_template', '0', '0', '0', '0', '2022-06-27 17:28:34', '2023-01-21 10:11:39', NULL);
+
+INSERT INTO `permissions` (`id`, `role_id`, `user_id`, `menu_id`, `menu_title`, `create`, `read`, `edit`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '4', '1', '138', 'sms_template', '0', '0', '0', '0', '2024-02-07 13:01:01', '2024-02-07 13:01:01', NULL);
+
+INSERT INTO `paymentgateways` (`name`, `status`) VALUES ('mpesa', '1');
+
+CREATE TABLE `mpesa` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`live_consumer_key` TEXT NOT NULL COLLATE 'utf8_general_ci',
+	`live_consumer_secret` TEXT NOT NULL COLLATE 'utf8_general_ci',
+	`live_shortcode` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`test_consumer_key` TEXT NOT NULL COLLATE 'utf8_general_ci',
+	`test_consumer_secret` TEXT NOT NULL COLLATE 'utf8_general_ci',
+	`test_shortcode` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`environment` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`created_at` DATETIME NULL DEFAULT current_timestamp(),
+	`updated_at` DATETIME NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	`deleted_at` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+AUTO_INCREMENT=2
+;
+CREATE TABLE `sms` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`url` VARCHAR(255) NOT NULL COLLATE 'utf8_general_ci',
+	`email` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`sender_id` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`api_key` VARCHAR(255) NOT NULL COLLATE 'utf8_general_ci',
+	`created_at` DATETIME NULL DEFAULT current_timestamp(),
+	`updated_at` DATETIME NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	`deleted_at` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=2
+;
+
+CREATE TABLE `sms_template` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`description` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`created_at` DATETIME NULL DEFAULT current_timestamp(),
+	`updated_at` DATETIME NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	`deleted_at` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=3
+;
+
+CREATE TABLE `transactions` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`MerchantRequestID` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`CheckoutRequestID` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ResultCode` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`Amount` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`MpesaReceiptNumber` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`PhoneNumber` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`created_at` TIMESTAMP NULL DEFAULT current_timestamp(),
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('sms', '2024-02-12 16:18:40', '2024-02-12 16:18:40', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('mpesa', '2024-02-12 16:19:42', '2024-02-12 16:19:42', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('sms_gateway_settings', '2024-02-12 16:19:56', '2024-02-12 16:19:56', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('sender_id', '2024-02-12 16:20:26', '2024-02-12 16:20:26', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('api_key', '2024-02-12 16:20:36', '2024-02-12 16:20:36', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('live_consumer_key', '2024-02-12 16:20:44', '2024-02-12 16:20:44', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('live_consumer_secret', '2024-02-12 16:20:51', '2024-02-12 16:20:51', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('live_shortcode', '2024-02-12 16:20:58', '2024-02-12 16:20:58', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('test_consumer_key', '2024-02-12 16:21:06', '2024-02-12 16:21:06', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('test_consumer_secret', '2024-02-12 16:21:13', '2024-02-12 16:21:13', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('test_shortcode', '2024-02-12 16:21:21', '2024-02-12 16:21:21', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('live_passkey', '2024-02-15 11:38:30', '2024-02-15 11:38:30', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('test_passkey', '2024-02-15 11:38:41', '2024-02-15 11:38:41', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('live_callback_url', '2024-02-15 12:00:30', '2024-02-15 12:00:30', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('test_callback_url', '2024-02-15 12:00:39', '2024-02-15 12:00:39', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('sms_template', '2024-02-18 14:15:04', '2024-02-18 14:15:04', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('sms_template_list', '2024-02-18 14:50:52', '2024-02-18 14:50:52', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('sms_body', '2024-02-18 15:24:32', '2024-02-18 15:24:32', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('send_sms', '2024-02-18 16:39:09', '2024-02-18 16:39:09', NULL);
+INSERT INTO `langstrings` ( `name`, `created_at`, `updated_at`, `deleted_at`) VALUES ('template_name', '2024-02-18 17:36:49', '2024-02-18 17:36:49', NULL);

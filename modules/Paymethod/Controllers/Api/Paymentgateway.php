@@ -446,28 +446,113 @@ class Paymentgateway extends BaseController
             if (!empty($getPayData)) {
 
                 if ($getPayData->environment == 1) {
-                    $pesa = new Mpesa($getPayData->live_consumer_key, $getPayData->live_consumer_secret, $getPayData->live_shortcode,$getPayData->test_passkey,$getPayData->test_callback_url,$phone,$amount);
+                    $pesa = new Mpesa($getPayData->live_consumer_key, $getPayData->live_consumer_secret, $getPayData->live_shortcode,$getPayData->live_passkey,$getPayData->live_callback_url,$phone,$amount);
                 } else {
-                    $pesa = new Mpesa($getPayData->test_consumer_key, $getPayData->test_consumer_secret, $getPayData->test_shortcode,$getPayData->live_passkey,$getPayData->live_callback_url,$phone,$amount);
+                    $pesa = new Mpesa($getPayData->test_consumer_key, $getPayData->test_consumer_secret, $getPayData->test_shortcode,$getPayData->test_passkey,$getPayData->test_callback_url,$phone,$amount);
                 }
                 $ResponseCode=$pesa->stk_push();
                 
-                if($ResponseCode==1){
+                if($ResponseCode['status']==1){
                     $data = [
                         'message' => 'Please Enter your Mpesa Pin Number.',
                         'status' => "Success",
+                        'checkout_request_id'=>$ResponseCode['checkout_request_id'],
+                        //'transection_id'=>$ResponseCode['transection_id'],
                         'response' => 200,
                     ];
                 
+                
                 }else{
                     $data = [
-                        'message' => $ResponseCode,
+                        'message' => $ResponseCode['status'],
                         'status' => "failed",
                         'response' => 204,
                     ]; 
                 }
             }
         }
+        return $this->response->setJSON($data);
+    }
+    public function mpesa_validate(){
+        
+
+        $authorizationHeader  = $this->request->getHeader('Authorization');
+        if ($authorizationHeader !== null) {
+            // Extract the token without 'Bearer' prefix and any white spaces
+            //$token = trim(str_replace('Bearer', '', $authorizationHeader));
+            $parts = explode(' ', $authorizationHeader);
+
+            // Get the token (the second part)
+            $token = trim($parts[2] ?? '');
+        } 
+        $CheckoutRequestID  = $this->request->getVar('checkout_request_id');
+        
+        $getPayData = $this->MpesaModel->first();
+        // $data['tokken'] = $token;
+        //  $data['CheckoutRequestID'] = $CheckoutRequestID;
+        //  $data['shortCode'] = $getPayData->test_shortcode;
+        //  $data['password'] = base64_encode($getPayData->test_shortcode . $getPayData->test_passkey . date('YmdHis'));
+        //  print_r($data);exit;
+   
+        // build Mpesa environment
+        // initialize Mpesa Settings
+        date_default_timezone_set('Africa/Nairobi');
+        $query_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query';
+        $BusinessShortCode = $getPayData->test_shortcode;
+        $Timestamp = date('YmdHis');
+        $passkey = $getPayData->test_passkey;
+        // ENCRIPT  DATA TO GET PASSWORD
+        $Password = base64_encode($BusinessShortCode . $passkey . $Timestamp);
+        //THIS IS THE UNIQUE ID THAT WAS GENERATED WHEN STK REQUEST INITIATED SUCCESSFULLY
+        //$CheckoutRequestID = $this->stk_push();
+        $queryheader = ['Content-Type:application/json', 'Authorization:Bearer ' .  $token];
+        # initiating the transaction
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $query_url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $queryheader); //setting custom header
+        $curl_post_data = array(
+        'BusinessShortCode' => $BusinessShortCode,
+        'Password' => $Password,
+        'Timestamp' => $Timestamp,
+        'CheckoutRequestID' => $CheckoutRequestID
+        );
+        //print_r($curl_post_data);exit;                       
+        $data_string = json_encode($curl_post_data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        $curl_response = curl_exec($curl);
+        $data_to = json_decode($curl_response);
+        $massage =$data_to;
+        if (isset($data_to->ResultCode)) {
+            $ResultCode = $data_to->ResultCode;
+            if ($ResultCode == '1037') {
+                $massage = "Timeout in completing transaction";
+            } elseif ($ResultCode == '1032') {
+                $massage = "Transaction  has cancelled by user";
+            } elseif ($ResultCode == '1') {
+                $massage = "The balance is insufficient for the transaction";
+            } elseif ($ResultCode == '0') {
+                $massage = '1';
+            }
+        }
+                
+        if($massage=='1'){
+            $data = [
+                'message' => 'Payment Successfully',
+                'status' => "Success",
+                'response' => 200,
+            ];
+        
+        }else{
+            $data = [
+                'message' => $massage,
+                'status' => "failed",
+                'response' => 204,
+            ]; 
+        }
+            
+        
         return $this->response->setJSON($data);
     }
     
@@ -505,14 +590,23 @@ class Paymentgateway extends BaseController
                 'response' => 200,
             ];
             return $this->response->setJSON($data);
+        }else{
+            $this->db      = db_connect();
+            $data=array(
+                'MerchantRequestID'=>$MerchantRequestID,
+                'CheckoutRequestID'=>$CheckoutRequestID,
+                'ResultCode'=>$ResultCode,
+            );
+            $this->db->table('transactions')->insert($data);
+            $data = [
+                'message' => $ResultDesc,
+                'status' => "failed",
+                'response' => 204,
+            ];
+            return $this->response->setJSON($data);
         }
-        $data = [
-            'message' => $ResultDesc,
-            'status' => "failed",
-            'response' => 204,
-        ];
 
-        return $this->response->setJSON($data);
+       
        
     }
     public function sslCommerz()
