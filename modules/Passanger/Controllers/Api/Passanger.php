@@ -416,25 +416,23 @@ class Passanger extends BaseController
         try {
             $decoded = JWT::decode($token, $key, array("HS256"));
 
-
             $userdetailId = $this->usercheck($decoded->slug);
 
-
-
             $validdata = array(
-                "id" => $userdetailId->id,
+                // "id" => $userdetailId->id,
                 "first_name" => $this->request->getVar('first_name'),
                 "last_name" => $this->request->getVar('last_name'),
                 "id_type" => $this->request->getVar('id_type'),
-                "id_number" => $this->request->getVar('id_number'),
-                "country_id" => $this->request->getVar('country_id'),
+                // "country_id" => $this->request->getVar('country_id'),
             );
+            $validationRules = [
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'id_type' => 'permit_empty|string',
+            ];
+            $validation = \Config\Services::validation();
 
-
-            if ($this->validation->run($validdata, 'userDetail')) {
-
-
-
+            if ($validation->setRules($validationRules)->run($validdata)) {
 
                 $inputdata = array(
                     "id" => $userdetailId->id,
@@ -597,14 +595,14 @@ class Passanger extends BaseController
         );
         $validdata = array(
             "first_name" => $this->request->getVar('first_name'),
-            "last_name" => $this->request->getVar('last_name'),
+            // "last_name" => $this->request->getVar('last_name'),
             "id_type" => $this->request->getVar('id_type') ?: null,
             "id_number" => $this->request->getVar('id_number') ?: null,
-            "country_id" => $this->request->getVar('country_id'),
+            //"country_id" => $this->request->getVar('country_id'),
         );
-
+        
         if ($this->validation->run($validuserData, 'reguser') && $this->validation->run($validdata, 'userDetail')) {
-
+            
             $this->db->transStart();
             
             // Try to insert the user data
