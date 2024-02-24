@@ -596,6 +596,9 @@ class Validation
         'first_name' => [
             'required'    => 'First name is required',
         ],
+        'id_type' => [
+            'required'    => 'ID type is required',
+        ],
         'id_number' => [
             'is_unique' => 'This ID number is associated with an account'
         ],
