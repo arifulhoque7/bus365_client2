@@ -408,23 +408,27 @@ class Ticket extends BaseController
         $userid = null;
         $evalue = $this->userModel->where('login_email', $login_email)->findAll();
         $mvalue = $this->userModel->where('login_mobile', $login_mobile)->findAll();
-
+        // var_dump($evalue,$mvalue); die();
         if (!empty($evalue) || !empty($mvalue)) {
-
             if ($evalue) {
                 foreach ($evalue as $key => $mobilevalue) {
                     $userid = $mobilevalue->id;
+                }
+                if($evalue && $login_mobile){
+                    $this->userModel->where('id', $userid)->set(['login_mobile' => $login_mobile])->update();
                 }
             }
             if ($mvalue) {
                 foreach ($mvalue as $key => $emailvalue) {
                     $userid = $emailvalue->id;
                 }
+                if($mvalue && $login_email){
+                    $this->userModel->where('id', $userid)->set(['login_email' => $login_email])->update();
+                }
             }
-
             return $userid;
+            
         } else {
-
             $status = 1;
             $role_id = 3;
             $slug = bin2hex(random_bytes(5));
@@ -441,44 +445,53 @@ class Ticket extends BaseController
                 "status" => $status,
             );
 
-            if ($this->validation->run($userData, 'user')) {
-                $this->db->transStart();
+            $validdata = array(
+                "first_name" => $this->request->getVar('first_name'),
+                "id_type" => $this->request->getVar('id_type') ?: null,
+                "id_number" => $this->request->getVar('id_number') ?: null,
+            );
+            // dd("else");
 
+
+            if ($this->validation->run($userData, 'user') && $this->validation->run($validdata, 'userDetail')) {
+                // var_dump($userData, $validdata);
+                // die();
+
+                $this->db->transStart();
                 $userData['password'] = password_hash($password, PASSWORD_DEFAULT);
                 $userid = $this->userModel->insert($userData);
 
-                $validdata = array(
+                $data = array(
                     "user_id" => $userid,
                     "first_name" => $this->request->getVar('first_name'),
                     "last_name" => $this->request->getVar('last_name'),
                     "id_type" => $this->request->getVar('id_type') ?: null,
-                    "id_number" => $this->request->getVar('id_number') ?: null,
                     "country_id" => $this->request->getVar('country_id'),
+                    "id_number" => $this->request->getVar('id_number') ?: null,
+                    "address" => $this->request->getVar('address'),
+                    "city" => $this->request->getVar('city'),
+                    "zip_code" => $this->request->getVar('zip_code'),
+
                 );
 
-                if ($this->validation->run($validdata, 'userDetail')) {
-                    $data = array(
-                        "user_id" => $userid,
-                        "first_name" => $this->request->getVar('first_name'),
-                        "last_name" => $this->request->getVar('last_name'),
-                        "id_type" => $this->request->getVar('id_type') ?: null,
-                        "country_id" => $this->request->getVar('country_id'),
-                        "id_number" => $this->request->getVar('id_number') ?: null,
-                        "address" => $this->request->getVar('address'),
-                        "city" => $this->request->getVar('city'),
-                        "zip_code" => $this->request->getVar('zip_code'),
+                $this->userDetailModel->insert($data);
 
-                    );
-
-                    $this->userDetailModel->insert($data);
-
-                    $this->db->transComplete();
-                }
+                $this->db->transComplete();
+                return $userid;
+            } else {
+                $errors = $this->validation;
+                $data = [
+                    'message' => "User Information Not Valid",
+                    'status' => "failed",
+                    'response' => 204,
+                    'errors' => $errors->listErrors(),
+                ];
+                return $this->response->setJSON($data);
             }
-
-            return $userid;
         }
     }
+
+
 
     public function busSeat($subTripId, $journeyDate)
     {
@@ -1065,6 +1078,7 @@ class Ticket extends BaseController
         $this->db->transStart();
 
         $userid = $this->userCheck($login_email, $login_mobile);
+        // var_dump($userid);exit;
         if (empty($userid)) {
             $data = [
                 'message' => "User check fail",
@@ -1148,7 +1162,7 @@ class Ticket extends BaseController
 
         if ($this->validation->run($validTicketbooking, 'ticket')) {
 
-
+            $paidamount = 0;
             $paymentStatus = $this->request->getVar('payment_status');
 
             if ($paymentStatus == "unpaid") {
