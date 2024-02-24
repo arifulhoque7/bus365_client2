@@ -115,7 +115,7 @@ class Passanger extends BaseController
         if ($type == "mobile") {
             $userdetail = $this->userModel->join('user_details', 'user_details.user_id = users.id', 'left')->where('role_id', 3)->where('status', 1)->where('login_mobile', $segment)->first();
         }
-        if($type == "nid"){
+        if ($type == "nid") {
             $userdetail = $this->userModel->join('user_details', 'user_details.user_id = users.id', 'left')->where('role_id', 3)->where('status', 1)->where('id_number', $segment)->first();
         }
 
@@ -245,7 +245,8 @@ class Passanger extends BaseController
                 ->orderBy('tickets.id', 'DESC')
                 ->findAll();
 
-            if (empty($ticketlist)) {
+
+            if (count($ticketlist) == 0) {
                 // ticket list is empty
                 $data = [
                     'status' => "fail",
@@ -600,11 +601,11 @@ class Passanger extends BaseController
             "id_number" => $this->request->getVar('id_number') ?: null,
             //"country_id" => $this->request->getVar('country_id'),
         );
-        
+
         if ($this->validation->run($validuserData, 'reguser') && $this->validation->run($validdata, 'userDetail')) {
-            
+
             $this->db->transStart();
-            
+
             // Try to insert the user data
             $userid = $this->userModel->insert($userData);
 
