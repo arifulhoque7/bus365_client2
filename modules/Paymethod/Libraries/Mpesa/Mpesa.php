@@ -57,63 +57,72 @@ class Mpesa
     }
     //Mpesa express start
     public function stk_push(){
-          
-        date_default_timezone_set('Africa/Nairobi');
-        $processrequestUrl = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-        $callbackurl = $this->callback_url;
-        $passkey = $this->passkey;
-        $BusinessShortCode = $this->shortCode;
-        $Timestamp = date('YmdHis');
-        // ENCRIPT  DATA TO GET PASSWORD
-        $Password = base64_encode($BusinessShortCode . $passkey . $Timestamp);
-        $phone = $this->phone;//phone number to receive the stk push
-        $money = $this->amount;
-        $PartyA = $phone;
-        $AccountReference = 'Bus365 Software';
-        $TransactionDesc = 'Ticket Booking';
-        $Amount = $money;
-        $stkpushheader = ['Content-Type:application/json', 'Authorization:Bearer ' . $this->accessToken()];
-        //INITIATE CURL
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $processrequestUrl);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $stkpushheader); //setting custom header
-        $curl_post_data = array(
-        //Fill in the request parameters with valid values
-        'BusinessShortCode' => $BusinessShortCode,
-        'Password' => $Password,
-        'Timestamp' => $Timestamp,
-        'TransactionType' => 'CustomerPayBillOnline',
-        'Amount' => $Amount,
-        'PartyA' => $PartyA,
-        'PartyB' => $BusinessShortCode,
-        'PhoneNumber' => $PartyA,
-        'CallBackURL' => $callbackurl,
-        'AccountReference' => $AccountReference,
-        'TransactionDesc' => $TransactionDesc
-        );
+        // print_r($this->accessToken());exit;
+        if($this->accessToken()!=''){
+            date_default_timezone_set('Africa/Nairobi');
+            $processrequestUrl = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+            $callbackurl = $this->callback_url;
+            $passkey = $this->passkey;
+            $BusinessShortCode = $this->shortCode;
+            $Timestamp = date('YmdHis');
+            // ENCRIPT  DATA TO GET PASSWORD
+            $Password = base64_encode($BusinessShortCode . $passkey . $Timestamp);
+            $phone = $this->phone;//phone number to receive the stk push
+            $money = $this->amount;
+            $PartyA = $phone;
+            $AccountReference = 'Bus365 Software';
+            $TransactionDesc = 'Ticket Booking';
+            $Amount = $money;
+            $stkpushheader = ['Content-Type:application/json', 'Authorization:Bearer ' . $this->accessToken()];
+            //INITIATE CURL
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $processrequestUrl);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $stkpushheader); //setting custom header
+            $curl_post_data = array(
+            //Fill in the request parameters with valid values
+            'BusinessShortCode' => $BusinessShortCode,
+            'Password' => $Password,
+            'Timestamp' => $Timestamp,
+            'TransactionType' => 'CustomerPayBillOnline',
+            'Amount' => $Amount,
+            'PartyA' => $PartyA,
+            'PartyB' => $BusinessShortCode,
+            'PhoneNumber' => $PartyA,
+            'CallBackURL' => $callbackurl,
+            'AccountReference' => $AccountReference,
+            'TransactionDesc' => $TransactionDesc
+            );
 
-        $data_string = json_encode($curl_post_data);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-        $curl_response = curl_exec($curl);
-        //ECHO  RESPONSE
-         $data = json_decode($curl_response);
-        $ResponseCode = $data->ResponseCode??'';
-        
-        if ($ResponseCode == "0") {
-            //return "The CheckoutRequestID for this transaction is : " . $CheckoutRequestID;
-            // $CheckoutRequestID = $data->CheckoutRequestID;
-            // sleep(5);
-            // $msg=$this->quary($CheckoutRequestID);
-            $data2=[
-                'status'=>1,
-                'checkout_request_id'=>$data->CheckoutRequestID,
-                'transection_id'=>$this->accessToken()
-            ];
-            return $data2;
+            $data_string = json_encode($curl_post_data);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+            $curl_response = curl_exec($curl);
+            //ECHO  RESPONSE
+            $data = json_decode($curl_response);
+            $ResponseCode = $data->ResponseCode??'';
+            
+            if ($ResponseCode == "0") {
+                //return "The CheckoutRequestID for this transaction is : " . $CheckoutRequestID;
+                // $CheckoutRequestID = $data->CheckoutRequestID;
+                // sleep(5);
+                // $msg=$this->quary($CheckoutRequestID);
+                $data2=[
+                    'status'=>1,
+                    'checkout_request_id'=>$data->CheckoutRequestID,
+                    'transection_id'=>$this->accessToken()
+                ];
+                return $data2;
+            }else{
+                $data2=['status'=>$data->errorMessage];
+                return $data2;
+            }
         }else{
-            $data2=['status'=>$data->errorMessage??''];
+            $data2=[
+                'status'=>'Token Not Generated',
+                'checkout_request_id'=>'',
+                'transection_id'=>''
+            ];
             return $data2;
         }
         
