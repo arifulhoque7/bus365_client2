@@ -27,7 +27,7 @@ Class Tokenjwt
         $key = getenv('TOKEN_SECRET');
         $iat = time(); // current timestamp value
         $nbf = $iat +0.1;
-        $exp = $iat + 3600;
+        $exp = $iat + 36000;
 
         $payload = array(
             "iss" => "The_claim",

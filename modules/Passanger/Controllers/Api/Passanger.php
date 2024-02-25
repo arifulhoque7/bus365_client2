@@ -172,8 +172,14 @@ class Passanger extends BaseController
 
         try {
             $decoded = JWT::decode($token, $key, array("HS256"));
+            $userdetail = $this
+                ->userModel
+                ->join('user_details', 'user_details.user_id = users.id', 'left')
+                ->where('role_id', 3)
+                ->where('status', 1)
+                ->where('slug', $decoded->slug)
+                ->findAll();
 
-            $userdetail = $this->userModel->join('user_details', 'user_details.user_id = users.id', 'left')->where('role_id', 3)->where('status', 1)->where('slug', $decoded->slug)->findAll();
 
             foreach ($userdetail as $key => $uservalue) {
                 $userdata['user_id'] = $uservalue->user_id;
@@ -195,7 +201,6 @@ class Passanger extends BaseController
                     $userdata['image'] = null;
                 }
             }
-
             $data = [
                 'status' => "success",
                 'response' => 200,
@@ -208,6 +213,7 @@ class Passanger extends BaseController
                 'status' => "fail",
                 'response' => 201,
                 'data' => "token not valid",
+                'error' => $ex->getMessage(),
             ];
             return $this->response->setJSON($data);
         }
@@ -339,6 +345,7 @@ class Passanger extends BaseController
                 'status' => "fail",
                 'response' => 201,
                 'data' => "token not valid",
+                'error' => $ex->getMessage(),
             ];
             return $this->response->setJSON($data);
         }
