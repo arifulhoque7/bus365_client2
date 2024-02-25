@@ -90,7 +90,7 @@ class Ticket extends BaseController
     private $luggageSettingModel;
     private $tagModel;
     protected $sms_templateModel;
-    protected $smsModel;  
+    protected $smsModel;
     protected $smsLibrary;
     protected $smsTemplateGenerate;
 
@@ -743,7 +743,7 @@ class Ticket extends BaseController
         // get user info
         $login_email = $this->request->getVar('login_email');
         $login_mobile = $this->request->getVar('login_mobile');
-        $userid = $this->userCheck($login_mobile,$login_email ?? null);
+        $userid = $this->userCheck($login_mobile, $login_email ?? null);
 
         $loginUserId = $this->session->get('user_id');
         $bookUserId = $this->session->get('role_id');
@@ -848,10 +848,10 @@ class Ticket extends BaseController
                 "payment_detail" => $this->request->getVar('paydetail'),
             );
 
-            $this->ticketModel->insert($ticketbooking);
-
+            $tt = $this->ticketModel->insert($ticketbooking);
 
             if ($this->validation->run($partialPaid, 'partialpay')) {
+
 
                 $this->partialpaidModel->insert($paidpartial);
 
@@ -903,27 +903,27 @@ class Ticket extends BaseController
             }
 
             $this->db->transComplete();
+            // dd($rand);
             $emaildata = $ticketmailLibrary->getticketEmailData($rand);
             $status = sendTicket($login_email, $emaildata);
-
             //send sms
-            $tripData=$this->ticketInfo($rand);
+            $tripData = $this->ticketInfo($rand);
             $sms_settings = $this->smsModel->first();
-            $dynamic_value=array(
-                'customer_name' =>$tripData['customer_name'],
-                'ticket_id' =>$tripData['ticket_id'],
+            $dynamic_value = array(
+                'customer_name' => $tripData['customer_name'],
+                'ticket_id' => $tripData['ticket_id'],
                 'deperture_date' => $tripData['deperture_date'],
                 'deperture_time' => $tripData['deperture_time'],
                 'fare' =>  $tripData['fare'],
                 'pickup' => $tripData['pickup'],
                 'drop' => $tripData['drop'],
-                );
-            $template_sms =$this->sms_templateModel->find(2);
-            $message= $template_sms->description;
+            );
+            $template_sms = $this->sms_templateModel->find(2);
+            $message = $template_sms->description;
             $SendSMS  = new SmsTemplateGenerate($message, $dynamic_value);
-            $body=$SendSMS->sms_msg_generate();
+            $body = $SendSMS->sms_msg_generate();
             //return $this->response->setJSON($body);
-            $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,$tripData['phone'],$body,$sms_settings->api_key);
+            $this->smsLibrary->send_sms($sms_settings->url, $sms_settings->email, $sms_settings->sender_id, $tripData['phone'], $body, $sms_settings->api_key);
 
             if ($status == true) {
                 return redirect()->route('allbookinglist-ticket')->with("success", "Ticket created successfully");
@@ -933,8 +933,9 @@ class Ticket extends BaseController
         return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());
     }
 
-    public function ticketInfo($bookingid){
-        
+    public function ticketInfo($bookingid)
+    {
+
 
 
         $ticket =  $this->ticketModel->where('booking_id', $bookingid)->first();
@@ -961,13 +962,13 @@ class Ticket extends BaseController
                 ->withDeleted()
                 ->find($ticket->subtrip_id);
 
-         
+
             $passengerdata = $this->userModel->find($ticket->passanger_id);
             $ticket->mobile = $passengerdata->login_mobile;
             $passengerdetail = $this->userDetailModel->where('user_id', $passengerdata->id)->first();
             $ticket->fullName = $passengerdetail->first_name . ' ' . $passengerdetail->last_name;
 
-           
+
 
             $ticket->from = $gettripdata->pl_name;
             $ticket->to = $gettripdata->dl_name;
@@ -978,7 +979,7 @@ class Ticket extends BaseController
 
             // $ticket->discount = (float)$ticket->discount;
             // $ticket->totaltax = (float)$ticket->totaltax;
-             $ticket->paidamount = (float)$ticket->paidamount;
+            $ticket->paidamount = (float)$ticket->paidamount;
             // $ticket->roundtrip_discount = (float)$ticket->roundtrip_discount;
             // $ticket->price = (float)$ticket->price;
             // $total_paid_luggage_price_pcs = ((int)$ticket->paid_max_luggage_pcs * (float)$ticket->price_pcs);
@@ -993,38 +994,41 @@ class Ticket extends BaseController
             //$ticket->grand_total = (float)$ticket->sub_total + (float)$ticket->totaltax;
 
             $data = [
-                'customer_name' =>$ticket->fullName,
-                'ticket_id' =>$bookingid,
-                'deperture_date' => date('d-m-Y',strtotime($ticket->journeydata)),
+                'customer_name' => $ticket->fullName,
+                'ticket_id' => $bookingid,
+                'deperture_date' => date('d-m-Y', strtotime($ticket->journeydata)),
                 'deperture_time' => $gettripdata->start_time,
                 'fare' =>  $ticket->paidamount,
                 'pickup' => $ticket->from,
                 'drop' => $ticket->to,
-                'phone'=>(string)$ticket->mobile
+                'phone' => (string)$ticket->mobile
             ];
         }
         return $data;
     }
-    public function userCheck($login_mobile ,$login_email = null)
+    public function userCheck($login_mobile, $login_email = null)
     {
         $userid = null;
-        if (empty($login_email)) {
-            $evalue = $this->userModel->where('login_email', $login_email)->findAll();
-        }
+        $evalue = $this->userModel->where('login_email', $login_email)->findAll();
         $mvalue = $this->userModel->where('login_mobile', $login_mobile)->findAll();
-
+        // var_dump($evalue,$mvalue); die();
         if (!empty($evalue) || !empty($mvalue)) {
-            if (!empty($evalue)) {
+            if ($evalue) {
                 foreach ($evalue as $key => $mobilevalue) {
                     $userid = $mobilevalue->id;
                 }
+                if ($evalue && $login_mobile) {
+                    $this->userModel->where('id', $userid)->set(['login_mobile' => $login_mobile])->update();
+                }
             }
-            if (!empty($mvalue)) {
+            if ($mvalue) {
                 foreach ($mvalue as $key => $emailvalue) {
                     $userid = $emailvalue->id;
                 }
+                if ($mvalue && $login_email) {
+                    $this->userModel->where('id', $userid)->set(['login_email' => $login_email])->update();
+                }
             }
-
             return $userid;
         } else {
             $status = 1;
@@ -1044,20 +1048,15 @@ class Ticket extends BaseController
             );
             $validdata = array(
                 "first_name" => $this->request->getVar('first_name'),
-                "last_name" => $this->request->getVar('last_name'),
                 "id_type" => $this->request->getVar('id_type') ?: null,
                 "id_number" => $this->request->getVar('id_number') ?: null,
-                //"country_id" => $this->request->getVar('country_id'),
             );
 
-            if ($this->validation->run($userData, 'user') && $this->validation->run($userData, 'user')) {
+            if ($this->validation->run($userData, 'user') && $this->validation->run($validdata, 'userDetail')) {
                 $this->db->transStart();
 
                 $userData['password'] = password_hash($password, PASSWORD_DEFAULT);
                 $userid = $this->userModel->insert($userData);
-
-
-
 
                 $data = array(
                     "user_id" => $userid,
@@ -1070,14 +1069,14 @@ class Ticket extends BaseController
                     "city" => $this->request->getVar('city') ?: null,
                     "zip_code" => $this->request->getVar('zip_code') ?: null,
                 );
-
+                // dd($data);
                 $this->userDetailModel->insert($data);
 
                 $this->db->transComplete();
+                return $userid;
             } else {
                 return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());
             }
-            return $userid;
         }
     }
 
@@ -1346,7 +1345,7 @@ class Ticket extends BaseController
         $login_email = $this->request->getVar('login_email') ?: null;
         $login_mobile = $this->request->getVar('login_mobile');
 
-        $userid = $this->userCheck($login_mobile ,$login_email ?? null);
+        $userid = $this->userCheck($login_mobile, $login_email ?? null);
 
         $loginUserId = $this->session->get('user_id');
 
