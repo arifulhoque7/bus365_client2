@@ -90,8 +90,9 @@ class Ticketinvoice extends BaseController
         return view($this->Viewpath . '\invoice\posinvoice', $data);
     }
 
-    private function buildTicketData(string $ticketbookingid)
+    public function buildTicketData(string $ticketbookingid)
     {
+        //dd($ticketbookingid);
         // Build ticket info
         $data['ticket'] = $ticketInfo = $this->ticketModel
             ->select('tickets.created_at as bookingdate, tickets.*, users.*, user_details.*')

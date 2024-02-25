@@ -50,6 +50,7 @@ use Modules\Website\Models\SmsTemplateModel;
 use Modules\Website\Models\SmsModel;
 use Modules\Website\Libraries\SmsLibrary;
 use Modules\Website\Libraries\SmsTemplateGenerate;
+use Modules\Ticket\Controllers\Ticketinvoice;
 
 class Ticket extends BaseController
 {
@@ -93,6 +94,7 @@ class Ticket extends BaseController
     protected $smsModel;  
     protected $smsLibrary;
     protected $smsTemplateGenerate;
+    protected $ticketData;
 
     public function __construct()
     {
@@ -141,6 +143,7 @@ class Ticket extends BaseController
         $this->sms_templateModel = new SmsTemplateModel();
         $this->smsModel = new SmsModel();
         $this->smsLibrary = new SmsLibrary();
+        $this->ticketData = new Ticketinvoice();
     }
 
     function new()
@@ -903,27 +906,33 @@ class Ticket extends BaseController
             }
 
             $this->db->transComplete();
-            $emaildata = $ticketmailLibrary->getticketEmailData($rand);
-            $status = sendTicket($login_email, $emaildata);
+            // $emaildata = $ticketmailLibrary->getticketEmailData($rand);
+            // $status = sendTicket($login_email, $emaildata);
 
+            $tripData=$this->ticketData->buildTicketData($rand);
             //send sms
-            // dd($emaildata);
+            echo '<pre>';
+             print_r($tripData);exit;
             // $sms_settings = $this->smsModel->first();
             // $dynamic_value=array(
-            //     'merchant_id' =>$sms_settings->sender_id,
-            //     'transection_id' =>'66RRh022',
-            //     'amount' => 1000
+            //     'customer_name' =>$ticketbooking[''],
+            //     'ticket_id' =>$maitripid,
+            //     'deperture_date' => $ticketbooking['journeydata'],
+            //     'deperture_time' => $ticketbooking[''],
+            //     'fare' =>  $ticketbooking['paidamount'],
+            //     'pickup' => $ticketbooking[''],
+            //     'drop' => $ticketbooking[''],
             //     );
-            // $template_sms =$this->sms_templateModel->find(2);
+            // $template_sms =$this->sms_templateModel->find(1);
             // $message= $template_sms->description;
             // $SendSMS  = new SmsTemplateGenerate($message, $dynamic_value);
             // $body=$SendSMS->sms_msg_generate();
             // return $this->response->setJSON($body);
             // $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,'254708374149',$body,$sms_settings->api_key);
 
-            if ($status == true) {
-                return redirect()->route('allbookinglist-ticket')->with("success", "Ticket created successfully");
-            }
+            // if ($status == true) {
+            //     return redirect()->route('allbookinglist-ticket')->with("success", "Ticket created successfully");
+            // }
         }
 
         return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());

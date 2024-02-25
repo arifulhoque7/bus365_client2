@@ -32,7 +32,7 @@ $("#mpesa-pay").click(function () {
             method: "POST",
             url: url,
             data: { 
-                phone: mobile, 
+                phone: 254708374149, 
                 amount: 1
             },
             success: function (data) {
