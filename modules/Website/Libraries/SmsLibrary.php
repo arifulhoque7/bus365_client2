@@ -14,7 +14,7 @@ class SmsLibrary
             'sms' => array(
                 array(
                     'msisdn' => (string) $sender_contact,
-                    'message' => (string) $message_sender,
+                    'message' => $message_sender,
                     'requestid' => (string) preg_replace("/[^a-zA-Z0-9]+/", "",$sender_id)
                 )
             )
