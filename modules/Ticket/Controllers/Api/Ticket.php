@@ -414,7 +414,7 @@ class Ticket extends BaseController
                 foreach ($evalue as $key => $mobilevalue) {
                     $userid = $mobilevalue->id;
                 }
-                if($evalue && $login_mobile){
+                if ($evalue && $login_mobile) {
                     $this->userModel->where('id', $userid)->set(['login_mobile' => $login_mobile])->update();
                 }
             }
@@ -422,12 +422,11 @@ class Ticket extends BaseController
                 foreach ($mvalue as $key => $emailvalue) {
                     $userid = $emailvalue->id;
                 }
-                if($mvalue && $login_email){
+                if ($mvalue && $login_email) {
                     $this->userModel->where('id', $userid)->set(['login_email' => $login_email])->update();
                 }
             }
             return $userid;
-            
         } else {
             $status = 1;
             $role_id = 3;
@@ -826,6 +825,25 @@ class Ticket extends BaseController
                 'data' => $ticket,
             ];
         } else {
+
+
+            // Build trip, schedule and subtrip data
+            $gettripdata =  $this->tripModel
+                ->select('trips.*, l_p.name AS pl_name, l_d.name AS dl_name, sc.start_time, sc.end_time')
+                ->join('locations l_p', 'trips.pick_location_id = l_p.id', 'left')
+                ->join('locations l_d', 'trips.drop_location_id = l_d.id', 'left')
+                ->join('schedules sc', 'trips.schedule_id = sc.id', 'left')
+                ->withDeleted()
+                ->find($ticket->trip_id);
+
+            $travelartripdata = $this->subtripModel
+                ->select('subtrips.*, l_p.name AS pl_name, l_d.name AS dl_name')
+                ->join('locations l_p', 'subtrips.pick_location_id = l_p.id')
+                ->join('locations l_d', 'subtrips.drop_location_id = l_d.id')
+                ->withDeleted()
+                ->find($ticket->subtrip_id);
+
+         
             $passengerdata = $this->userModel->find($ticket->passanger_id);
             $ticket->mobile = $passengerdata->login_mobile;
             $ticket->email = $passengerdata->login_email;
@@ -852,6 +870,14 @@ class Ticket extends BaseController
             if ($ticket->price_kg == null) {
                 $ticket->price_kg = 0.00;
             }
+
+            $ticket->from = $gettripdata->pl_name;
+            $ticket->to = $gettripdata->dl_name;
+            $ticket->trip_start_time = $gettripdata->start_time;
+            $ticket->trip_end_time = $gettripdata->end_time;
+            $ticket->travelerPick = $travelartripdata->pl_name;
+            $ticket->travelerDrop = $travelartripdata->dl_name;
+
             $ticket->discount = (float)$ticket->discount;
             $ticket->totaltax = (float)$ticket->totaltax;
             $ticket->paidamount = (float)$ticket->paidamount;
