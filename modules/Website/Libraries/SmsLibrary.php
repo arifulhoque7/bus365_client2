@@ -5,7 +5,7 @@ namespace Modules\Website\Libraries;
 class SmsLibrary
 {
     function send_sms($url,$email,$sender_id,$sender_contact, $message_sender,$api_key) {
-        // Set the API endpoint URL
+
         // Set the payload data
         $data = array(
             'email' => $email,
@@ -22,7 +22,7 @@ class SmsLibrary
        
         // Convert the data to JSON format
         $data_json = json_encode($data);
-        // print_r($data_json);exit;
+         print_r($data_json);exit;
         // Set the cURL options
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

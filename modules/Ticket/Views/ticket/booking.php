@@ -187,7 +187,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3 class="text-center">Please wait for 10 Seconds and Dont try to refresh this page!!</h3>
+                <h3 class="text-center">Please wait for 30 Seconds and Dont try to refresh this page!!</h3>
                 <h4 class="text-center">Need to Validated this Payment, Stay with us.</h4>
                 <p class="text-center" id="mpesaMsg"></p>
             </div>
@@ -199,6 +199,6 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
 <?php echo $this->section('js') ?>
 <script src="<?php echo base_url('public/js/booking.js') . '?v=' . time(); ?>"></script>
 <script src="<?php echo base_url('public/js/ajax.js') . '?v=' . time(); ?>"></script>
-<script src="<?php echo base_url('public/js/mpesa.js'); ?>"></script>
+<script src="<?php echo base_url('public/js/mpesa.js') . '?v=' . time(); ?>"></script>
 
 <?php echo $this->endSection() ?>

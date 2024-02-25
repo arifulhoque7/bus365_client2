@@ -42,7 +42,7 @@ $("#mpesa-pay").click(function () {
                     $('#paydetail').val('Checkout Request ID: ' + data.checkout_request_id);
                     setTimeout(function() {
                         validation(data.checkout_request_id,data.transection_id); // Call the function with parameters after a delay
-                    }, 10000);
+                    }, 30000);
                     
                 } 
 
@@ -74,7 +74,7 @@ function validation(checkout_request_id,transection_id){
                 }
                 setTimeout(function() {
                     $('#MpesaModal').modal('hide');
-                }, 10000);
+                }, 20000);
         }
 
     });
