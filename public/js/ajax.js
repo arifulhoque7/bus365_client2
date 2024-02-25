@@ -267,9 +267,3 @@ $("#lngid").change(function () {
 });
 
 //submit-booking on click
-$("#submit-booking").click(function () {
-  var $env = $(this),
-    $eloaderTarget = $env.parent();
-
-  bdtaskIlmCommonJs.elemLoader.show($eloaderTarget, 20, false);
-});

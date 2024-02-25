@@ -552,7 +552,7 @@
                                 <tr style="margin-top: 100 px;">
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
-                                      Book Time :  <strong > <?php echo(!empty($ticket->bookingdate) ? date("d-m-Y h:i:s A",strtotime($ticket->bookingdate)) : null) ?>
+                                      Book Time :  <strong > <?php echo(!empty($ticket->bookingdate) ? $ticket->bookingdate : null) ?>
                                       </strong> 
                                     </span>
                                   </td>
@@ -562,7 +562,7 @@
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
                                       Journey Time : <strong> <?php echo(!empty($ticket->journeydata) ? date("d-m-Y",strtotime($ticket->journeydata)) : null) ?> </strong>  : 
-
+                                      <?php echo(!empty($ticket->trip_start_time) ? $ticket->trip_start_time : null) ?>
                                     </span>
                                   </td>
                                 </tr>

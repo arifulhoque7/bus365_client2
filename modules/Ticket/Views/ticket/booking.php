@@ -33,7 +33,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <input type="hidden" name="price_kg" id="price_kg" value="<?php echo $price_kg; ?>">
             <input type="hidden" name="special_luggage" id="special_luggage" value="<?php echo $special_luggage; ?>">
 
-            
+
 
 
             <?php if ($sessiondata->has('grandtotal')) : ?>
@@ -47,7 +47,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             <input type="hidden" name="totalseat" id="totalseat" value="<?php echo $totalseat; ?>">
             <input type="hidden" name="journeydate" id="journeydate" value="<?php echo $journeydate; ?>">
             <input type="hidden" name="roundtrip_discount" id="roundtrip_discount" value="<?php echo $roundtrip_discount; ?>">
-            <input type="hidden" name="parking_boy_commission"  id="parking_boy_commission" value="<?php echo $parkingboycommission; ?>">
+            <input type="hidden" name="parking_boy_commission" id="parking_boy_commission" value="<?php echo $parkingboycommission; ?>">
             <input type="hidden" name="discount" id="discount" value="<?php echo $discount; ?>">
 
             <div class="booking-passangers mb-4">
@@ -64,7 +64,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                             <?php for ($i = 1; $i <= $dynamicfield; $i++) { ?>
                                 <div class="mb-3">
                                     <label class="fw-bold"><?php echo lang("Localize.passanger") ?> <?php echo $i + 1; ?> </label>
-                                    
+
                                     <div class="row mb-2">
                                         <div class="col-lg-6 ">
                                             <label for="first_name"><?php echo lang("Localize.first_name") ?></label>
@@ -80,7 +80,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                                             <label for="login_mobile"><?php echo lang("Localize.mobile") ?></label>
                                             <input type="number" name="login_mobile_new[]" class="form-control" value="" placeholder="<?php echo lang("Localize.mobile") ?>" aria-label="Mobile">
                                         </div>
-    
+
                                         <div class="col-lg-6">
                                             <label for="id_number"><?php echo lang("Localize.nid_passport_number") ?></label>
                                             <input type="text" name="id_number_new[]" class="form-control" value="" placeholder="<?php echo lang("Localize.nid_passport_number") ?>" aria-label="Nid/Passport Number">
@@ -103,7 +103,8 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                         <label for="payment_status"><?php echo lang("Localize.payment") ?> <?php echo lang("Localize.status") ?> <abbr class="required" title="Required field">*</abbr></label>
                         <select class="form-select" name="payment_status" id="payment_status" required>
                             <option value="paid"><?php echo lang("Localize.paid") ?></option>
-                            <!-- <option value="partial"><?php //echo lang("Localize.partial") ?></option> -->
+                            <!-- <option value="partial"><?php //echo lang("Localize.partial") 
+                                                            ?></option> -->
                             <option value="unpaid"><?php echo lang("Localize.unpaid") ?></option>
                         </select>
                     </div>
@@ -126,22 +127,30 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
                 </div>
                 <div class="row mt-2">
                     <!-- <div class="col-lg-4 form-group" id="couponcode">
-                        <label for="coupon"><?php //echo lang("Localize.apply") ?> <?php //echo lang("Localize.coupon") ?></label>
-                        <input type="text" name="offerer" id="coupon" class="form-control" placeholder="<?php //echo lang("Localize.coupon") ?>">
+                        <label for="coupon"><?php //echo lang("Localize.apply") 
+                                            ?> <?php //echo lang("Localize.coupon") 
+                                                                                    ?></label>
+                        <input type="text" name="offerer" id="coupon" class="form-control" placeholder="<?php //echo lang("Localize.coupon") 
+                                                                                                        ?>">
                         <small id="couponmessage"></small>
                     </div>
 
-                    <?php //if ($discount == 1) : ?>
+                    <?php //if ($discount == 1) : 
+                    ?>
                         <div class="col-lg-4 form-group" id="less">
-                            <label for="discount"><?php //echo lang("Localize.discount") ?> </label>
+                            <label for="discount"><?php //echo lang("Localize.discount") 
+                                                    ?> </label>
                             <input type="text" name="discount" id="discount" class="form-control" value="0">
                         </div>
-                    <?php //else : ?>
+                    <?php //else : 
+                    ?>
                         <div class="col-lg-4 form-group" id="less">
-                            <label for="discount"><?php //echo lang("Localize.discount") ?> </label>
+                            <label for="discount"><?php //echo lang("Localize.discount") 
+                                                    ?> </label>
                             <input type="text" name="discount" id="discount" class="form-control" value="0" readonly>
                         </div>
-                    <?php //endif ?> -->
+                    <?php //endif 
+                    ?> -->
 
                     <div class="col-lg-4 form-group" id="partial">
                         <label for="partialpay"><?php echo lang("Localize.partial") ?> <?php echo lang("Localize.payment") ?> <?php echo lang("Localize.amount") ?> </label>
@@ -179,7 +188,7 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
             </div>
             <div class="modal-body">
                 <h3 class="text-center">Please wait for 10 Seconds and Dont try to refresh this page!!</h3>
-                 <h4 class="text-center">Need to Validated this Payment, Stay with us.</h4>
+                <h4 class="text-center">Need to Validated this Payment, Stay with us.</h4>
                 <p class="text-center" id="mpesaMsg"></p>
             </div>
         </div>
@@ -188,7 +197,8 @@ $isrountripPost  = $sessiondata->has('isrountrip') ? $sessiondata->isrountrip : 
 <?php echo $this->endSection() ?>
 
 <?php echo $this->section('js') ?>
-<script src="<?php echo base_url('public/js/booking.js').'?v='.time(); ?>"></script>
-<script src="<?php echo base_url('public/js/ajax.js'); ?>"></script>
+<script src="<?php echo base_url('public/js/booking.js') . '?v=' . time(); ?>"></script>
+<script src="<?php echo base_url('public/js/ajax.js') . '?v=' . time(); ?>"></script>
 <script src="<?php echo base_url('public/js/mpesa.js'); ?>"></script>
+
 <?php echo $this->endSection() ?>
