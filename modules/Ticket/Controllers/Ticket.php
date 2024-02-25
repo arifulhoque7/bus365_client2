@@ -907,19 +907,23 @@ class Ticket extends BaseController
             $status = sendTicket($login_email, $emaildata);
 
             //send sms
-            // dd($emaildata);
-            // $sms_settings = $this->smsModel->first();
-            // $dynamic_value=array(
-            //     'merchant_id' =>$sms_settings->sender_id,
-            //     'transection_id' =>'66RRh022',
-            //     'amount' => 1000
-            //     );
-            // $template_sms =$this->sms_templateModel->find(2);
-            // $message= $template_sms->description;
-            // $SendSMS  = new SmsTemplateGenerate($message, $dynamic_value);
-            // $body=$SendSMS->sms_msg_generate();
-            // return $this->response->setJSON($body);
-            // $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,'254708374149',$body,$sms_settings->api_key);
+            $tripData=$this->ticketInfo($rand);
+            $sms_settings = $this->smsModel->first();
+            $dynamic_value=array(
+                'customer_name' =>$tripData['customer_name'],
+                'ticket_id' =>$tripData['ticket_id'],
+                'deperture_date' => $tripData['deperture_date'],
+                'deperture_time' => $tripData['deperture_time'],
+                'fare' =>  $tripData['fare'],
+                'pickup' => $tripData['pickup'],
+                'drop' => $tripData['drop'],
+                );
+            $template_sms =$this->sms_templateModel->find(2);
+            $message= $template_sms->description;
+            $SendSMS  = new SmsTemplateGenerate($message, $dynamic_value);
+            $body=$SendSMS->sms_msg_generate();
+            //return $this->response->setJSON($body);
+            $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,$tripData['phone'],$body,$sms_settings->api_key);
 
             if ($status == true) {
                 return redirect()->route('allbookinglist-ticket')->with("success", "Ticket created successfully");
@@ -929,6 +933,78 @@ class Ticket extends BaseController
         return redirect()->route('new-ticket')->with("fail", $this->validation->listErrors());
     }
 
+    public function ticketInfo($bookingid){
+        
+
+
+        $ticket =  $this->ticketModel->where('booking_id', $bookingid)->first();
+
+        if (empty($ticket)) {
+
+            $data = [];
+        } else {
+
+
+            // Build trip, schedule and subtrip data
+            $gettripdata =  $this->tripModel
+                ->select('trips.*, l_p.name AS pl_name, l_d.name AS dl_name, sc.start_time, sc.end_time')
+                ->join('locations l_p', 'trips.pick_location_id = l_p.id', 'left')
+                ->join('locations l_d', 'trips.drop_location_id = l_d.id', 'left')
+                ->join('schedules sc', 'trips.schedule_id = sc.id', 'left')
+                ->withDeleted()
+                ->find($ticket->trip_id);
+
+            $travelartripdata = $this->subtripModel
+                ->select('subtrips.*, l_p.name AS pl_name, l_d.name AS dl_name')
+                ->join('locations l_p', 'subtrips.pick_location_id = l_p.id')
+                ->join('locations l_d', 'subtrips.drop_location_id = l_d.id')
+                ->withDeleted()
+                ->find($ticket->subtrip_id);
+
+         
+            $passengerdata = $this->userModel->find($ticket->passanger_id);
+            $ticket->mobile = $passengerdata->login_mobile;
+            $passengerdetail = $this->userDetailModel->where('user_id', $passengerdata->id)->first();
+            $ticket->fullName = $passengerdetail->first_name . ' ' . $passengerdetail->last_name;
+
+           
+
+            $ticket->from = $gettripdata->pl_name;
+            $ticket->to = $gettripdata->dl_name;
+            $ticket->trip_start_time = $gettripdata->start_time;
+            $ticket->trip_end_time = $gettripdata->end_time;
+            // $ticket->travelerPick = $travelartripdata->pl_name;
+            // $ticket->travelerDrop = $travelartripdata->dl_name;
+
+            // $ticket->discount = (float)$ticket->discount;
+            // $ticket->totaltax = (float)$ticket->totaltax;
+             $ticket->paidamount = (float)$ticket->paidamount;
+            // $ticket->roundtrip_discount = (float)$ticket->roundtrip_discount;
+            // $ticket->price = (float)$ticket->price;
+            // $total_paid_luggage_price_pcs = ((int)$ticket->paid_max_luggage_pcs * (float)$ticket->price_pcs);
+            // $ticket->total_paid_luggage_price = $total_paid_luggage_price_pcs;
+
+            // $total_paid_luggage_price_kg = ((float)$ticket->paid_max_luggage_kg * (float)$ticket->price_kg);
+            // $ticket->total_paid_luggage_price_kg = $total_paid_luggage_price_kg;
+
+            // $ticket->total_luggage_price = ((int)$ticket->paid_max_luggage_pcs * (float)$ticket->price_pcs) + ((float)$ticket->paid_max_luggage_kg * (float)$ticket->price_kg);
+            // $ticket->total = (float)$ticket->price + (float)$ticket->total_luggage_price;
+            // $ticket->sub_total =  (float)$ticket->total - (float)$ticket->discount;
+            //$ticket->grand_total = (float)$ticket->sub_total + (float)$ticket->totaltax;
+
+            $data = [
+                'customer_name' =>$ticket->fullName,
+                'ticket_id' =>$bookingid,
+                'deperture_date' => date('d-m-Y',strtotime($ticket->journeydata)),
+                'deperture_time' => $gettripdata->start_time,
+                'fare' =>  $ticket->paidamount,
+                'pickup' => $ticket->from,
+                'drop' => $ticket->to,
+                'phone'=>(string)$ticket->mobile
+            ];
+        }
+        return $data;
+    }
     public function userCheck($login_mobile ,$login_email = null)
     {
         $userid = null;

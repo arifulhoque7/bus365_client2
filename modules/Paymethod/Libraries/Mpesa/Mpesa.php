@@ -33,12 +33,7 @@ class Mpesa
         $this->amount = $amount;
     }
     // this token use for all apis
-    public function accessToken(){
-        //YOU MPESA API KEYS
-        // $consumerKey = "btrFUyOMht2GNEj5KAa0Q3KVfVfjoAwyHOJMJM3HGdBOh0CH"; //Fill with your app Consumer Key
-        // $consumerSecret = "EQIQRSDJo3GQohCK8JNcqIsJNEIZuLrWd2qrIEZBXfnGgxnqrKN3CubgZhoYTWZT"; //Fill with your app Consumer Secret
-        //ACCESS TOKEN URL
-        
+    public function accessToken(){        
         $access_token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
         $headers = ['Content-Type:application/json; charset=utf8'];
         $curl = curl_init($access_token_url);
@@ -55,6 +50,7 @@ class Mpesa
         // print_r($access_token);exit;
         return $access_token;
     }
+
     //Mpesa express start
     public function stk_push(){
         // print_r($this->accessToken());exit;
