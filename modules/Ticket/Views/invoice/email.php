@@ -524,8 +524,12 @@
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
 
-                                      Pick Up Location : <?php foreach ($pickdrop as $pickvalue) : ?>
-                                <?php if ($pickvalue->pickdropid == $ticket->pick_stand_id) : ?>
+                                      Pick Up Location : <?php
+                                       $picktime='';
+                                      foreach ($pickdrop as $pickvalue) : ?>
+                                <?php if ($pickvalue->pickdropid == $ticket->pick_stand_id) : 
+                                  $picktime=$pickvalue->time;
+                                  ?>
                                 <?php echo  $pickvalue->name;?> (<small><?php echo  $pickvalue->time;?></small>)
                                 <?php endif ?>
                                 <?php endforeach ?> 
@@ -538,9 +542,10 @@
                                 <tr>
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
-
-                                      Drop Location : <?php foreach ($pickdrop as $pickvalue) : ?>
-                                <?php if ($pickvalue->pickdropid == $ticket->drop_stand_id ) : ?>
+                                      Drop Location : <?php
+                                      foreach ($pickdrop as $pickvalue) : ?>
+                                <?php if ($pickvalue->pickdropid == $ticket->drop_stand_id ) :
+                                  ?>
                                 <?php echo  $pickvalue->name;?> (<small><?php echo  $pickvalue->time;?></small>)
                                 <?php endif ?>
                                 <?php endforeach ?>
@@ -562,7 +567,7 @@
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
                                       Journey Time : <strong> <?php echo(!empty($ticket->journeydata) ? date("d-m-Y",strtotime($ticket->journeydata)) : null) ?> </strong>  : 
-                                      <?php echo(!empty($ticket->trip_start_time) ? $ticket->trip_start_time : null) ?>
+                                      <?php echo(!empty($ticket->trip_start_time) ? $ticket->trip_start_time : $picktime) ?>
                                     </span>
                                   </td>
                                 </tr>
