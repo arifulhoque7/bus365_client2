@@ -194,16 +194,16 @@
                 </div>
 
 
-                <div class="row-data">
+                <!-- <div class="row-data">
 
                     <div class="item-info">
-                        <h6 class="item-title"><?php echo lang("Localize.total") ?> <?php echo lang("Localize.tax") ?></h6>
+                        <h6 class="item-title"><?php //echo lang("Localize.total") ?> <?php //echo lang("Localize.tax") ?></h6>
                     </div>
 
                     <div class="">
-                        <h6 class="item-title"> <?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo $ticket->totaltax ?></h6>
+                        <h6 class="item-title"> <?php //echo  $sessiondata->get('currency_symbol'); ?> <?php //echo $ticket->totaltax ?></h6>
                     </div>
-                </div>
+                </div> -->
 
 
                 <div class="row-data">

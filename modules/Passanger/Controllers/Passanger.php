@@ -131,6 +131,8 @@ class Passanger extends BaseController
                 "address" => $this->request->getVar('address'),
                 "city" => $this->request->getVar('city'),
                 "zip_code" => $this->request->getVar('zip_code'),
+                "id_type" => $idType ?: null,
+                "id_number" => $idNumber ?: null,
             );
 
             // user detail data is valid
