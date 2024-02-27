@@ -177,14 +177,14 @@ $sessiondata = \Config\Services::session();
                         </td>
                     </tr>
 
-                    <tr>
+                    <!-- <tr>
                         <td colspan="4" class="text-end">
-                            <?php echo lang("Localize.total") ?> <?php echo lang("Localize.tax") ?>
+                            <?php //echo lang("Localize.total") ?> <?php //echo lang("Localize.tax") ?>
                         </td>
                         <td class="text-end">
-                            <?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  $ticket->totaltax; ?>
+                            <?php //echo  $sessiondata->get('currency_symbol'); ?> <?php //echo  $ticket->totaltax; ?>
                         </td>
-                    </tr>
+                    </tr> -->
 
 
                     <tr>

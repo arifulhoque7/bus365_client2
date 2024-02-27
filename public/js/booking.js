@@ -927,16 +927,16 @@ function dynamichtml(result, id) {
   html += '   <h6 class="form-label" id="subtotal' + id + '">0</h6>';
   html += "</div>";
 
-  html += '<div class="col-6  col-lg-4">';
+  html += '<div class="col-6  col-lg-4 d-none">';
   html += `   <h6 class="form-label">${bdtaskIlmCommonJs.lang.getPhrase(
     "tax"
   )}</h6>`;
   html += "</div>";
-  html += '<div class="col-6  col-lg-4 d-none d-lg-block">';
+  html += '<div class="col-6  col-lg-4 d-none">';
   html += '   <h6 class="form-label" ></h6>';
   html += "</div>";
   
-  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start">';
+  html += '<div class="col-6  col-lg-4 d-flex justify-content-end justify-content-lg-start d-none">';
   html += '   <h6 class="form-label" id="totaltax' + id + '">0</h6>';
   html += "</div>";
   

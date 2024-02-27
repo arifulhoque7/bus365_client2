@@ -557,7 +557,7 @@
                                 <tr style="margin-top: 100 px;">
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
-                                      Book Time :  <strong > <?php echo(!empty($ticket->bookingdate) ? $ticket->bookingdate : null) ?>
+                                      Book Time :  <strong > <?php echo(!empty($ticket->bookingdate) ? date('Y-m-d h:i A',strtotime($ticket->bookingdate)) : null) ?>
                                       </strong> 
                                     </span>
                                   </td>
@@ -712,13 +712,13 @@
                                       class="f-fallback"><?php echo  $sessiondata->get('currency_symbol'); ?> <?php echo  round($ticket->price + $ticket->parking_boy_commission, 2) + ($ticket->paid_max_luggage_pcs * $ticket->price_pcs) +  ($ticket->paid_max_luggage_kg * $ticket->price_kg) - $ticket->discount - $ticket->roundtrip_discount; ?></span></td>
                                 </tr>
 
-                                <tr>
+                                <!-- <tr>
                                   <td width="80%" class="purchase_item"><span
                                       class="f-fallback">Total Tax</span></td>
                                   <td class="align-right" width="20%"
                                     class="purchase_item"><span
-                                      class="f-fallback"><?php echo $ticket->totaltax ?></span></td>
-                                </tr>
+                                      class="f-fallback"><?php //echo $ticket->totaltax ?></span></td>
+                                </tr> -->
 
                                 <tr>
                                   <td width="80%" class="purchase_item"><span
