@@ -57,8 +57,8 @@
                             <label for="id_type"><?php echo lang("Localize.id_type") ?><abbr class="required" title="Required field">*</abbr></label>
                             <select name="id_type" class="form-control" id="id_type" aria-label="Passport/Nid" required>
                                 <option value=""><?php echo lang("Localize.id_type") ?></option>
-                                <option value="Passport" <?php echo (old('id_type')  ||  $agentdetail->id_type  == 'Passport') ? 'selected' : '' ?>><?php echo lang("Localize.Passport") ?></option>
-                                <option value="Nid" <?php echo (old('id_type') || $agentdetail->id_type == 'Nid') ? 'selected' : '' ?>><?php echo lang("Localize.Nid") ?></option>
+                                <option value="Passport" <?php echo (old('id_type')  ||  $agentdetail->id_type  == 'Passport') ? 'selected' : '' ?>><?php echo lang("Localize.passport") ?></option>
+                                <option value="Nid" <?php echo (old('id_type') || $agentdetail->id_type == 'Nid') ? 'selected' : '' ?>><?php echo lang("Localize.nid") ?></option>
                             </select>
                         </div>
 
