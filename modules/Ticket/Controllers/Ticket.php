@@ -1330,7 +1330,13 @@ class Ticket extends BaseController
             $getDiscount = 0;
         }
 
-
+        $websetting = $this->websettingModel->first();
+        if ($websetting) {
+            $timeForTimezone = $websetting->timezone;
+            $timezone = new \DateTimeZone($timeForTimezone);
+            $date = new \DateTime('now', $timezone);
+            $created_at = $date->format('Y-m-d H:i:s');
+        }
 
         $subtrips = $this->subtripModel->select('trips.id as tripid,trips.*,fleets.*,schedules.*,vehicles.*,subtrips.id as subtripId,subtrips.*')
             ->join('trips', 'trips.id = subtrips.trip_id')
@@ -1408,7 +1414,7 @@ class Ticket extends BaseController
             "price_kg" => $this->session->get('price_kg'),
             "special_luggage" => $this->session->get('special_luggage'),
             "parking_boy_commission" => $this->session->get('parking_boy_commission'),
-
+            "created_at" => $created_at ?? now(),
         );
 
         $validTicketbooking = array(

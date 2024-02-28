@@ -566,8 +566,8 @@
                                 <tr>
                                   <td class="attributes_item" >
                                     <span class="f-fallback">
-                                      Journey Time : <strong> <?php echo(!empty($ticket->journeydata) ? date("d-m-Y",strtotime($ticket->journeydata)) : null) ?> </strong>  : 
-                                      <?php echo(!empty($ticket->trip_start_time) ? $ticket->trip_start_time : $picktime) ?>
+                                      Journey Time : <strong> <?php echo(!empty($ticket->journeydata) ? date("d-m-Y",strtotime($ticket->journeydata)) : null) ?>
+                                      <?php echo(!empty($ticket->trip_start_time) ? $ticket->trip_start_time : $picktime) ?></strong>
                                     </span>
                                   </td>
                                 </tr>

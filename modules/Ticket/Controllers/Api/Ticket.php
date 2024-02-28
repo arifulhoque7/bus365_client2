@@ -136,7 +136,13 @@ class Ticket extends BaseController
             return $this->response->setJSON($data);
         }
 
-
+        $websetting = $this->webSettingModel->first();
+        if ($websetting) {
+            $timeForTimezone = $websetting->timezone;
+            $timezone = new \DateTimeZone($timeForTimezone);
+            $date = new \DateTime('now', $timezone);
+            $created_at = $date->format('Y-m-d H:i:s');
+        }
 
 
 
@@ -178,8 +184,7 @@ class Ticket extends BaseController
             "price_pcs" => $this->request->getVar('price_pcs'),
             "price_kg" => $this->request->getVar('price_kg'),
             "special_luggage" => $this->request->getVar('special_luggage'),
-
-
+            "created_at" => $created_at ?? now(),
         );
 
         $validTicketbooking = array(
@@ -352,9 +357,9 @@ class Ticket extends BaseController
         }
 
 
-        $emaildata = $ticketmailLibrary->getticketEmailData($rand);
+        // $emaildata = $ticketmailLibrary->getticketEmailData($rand);
 
-        $status = sendTicket($login_email, $emaildata);
+        // $status = sendTicket($login_email, $emaildata);
 
         return $this->response->setJSON($data);
     }
