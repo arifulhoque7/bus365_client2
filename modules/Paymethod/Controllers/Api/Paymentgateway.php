@@ -33,7 +33,7 @@ class Paymentgateway extends BaseController
     protected $MpesaModel;
     protected $db;
     protected $smsLibrary;
-    protected $smsModel;  
+    protected $smsModel;
 
     public function __construct()
     {
@@ -433,12 +433,34 @@ class Paymentgateway extends BaseController
             return $this->response->setJSON($data);
         }
     }
-    public function mpesa_pay(){
+    public function mpesa_pay()
+    {
         $paymentGatewayStatus = $this->paymentGatewayModel->where('status', 1)->find(7);
 
         $phone  = $this->request->getVar('phone');
         $amount  = $this->request->getVar('amount');
         // initialize Mpesa Settings
+        // Check if phone number length is 9
+        if (strlen($phone) != 9) {
+            // Check if amount is greater than 0
+            if ($amount <= 0 && $amount == null) {
+                // Both conditions are met
+                $data = [
+                    'message' => "Please Enter a valid Phone Number and Amount.",
+                    'status' => "failed",
+                    'response' => 500,
+                ];
+            }
+        } else {
+            // Phone number length is not 9
+            $data = [
+                'message' => "Please Enter a valid Phone Number.",
+                'status' => "failed",
+                'response' => 204,
+            ];
+        }
+        
+        $phone = '254' . $phone;
         if (!empty($paymentGatewayStatus)) {
 
             $getPayData = $this->MpesaModel->first();
@@ -446,35 +468,34 @@ class Paymentgateway extends BaseController
             if (!empty($getPayData)) {
 
                 if ($getPayData->environment == 1) {
-                    $pesa = new Mpesa($getPayData->live_consumer_key, $getPayData->live_consumer_secret, $getPayData->live_shortcode,$getPayData->live_passkey,$getPayData->live_callback_url,$phone,$amount);
+                    $pesa = new Mpesa($getPayData->live_consumer_key, $getPayData->live_consumer_secret, $getPayData->live_shortcode, $getPayData->live_passkey, $getPayData->live_callback_url, $phone, $amount);
                 } else {
-                    $pesa = new Mpesa($getPayData->test_consumer_key, $getPayData->test_consumer_secret, $getPayData->test_shortcode,$getPayData->test_passkey,$getPayData->test_callback_url,$phone,$amount);
+                    $pesa = new Mpesa($getPayData->test_consumer_key, $getPayData->test_consumer_secret, $getPayData->test_shortcode, $getPayData->test_passkey, $getPayData->test_callback_url, $phone, $amount);
                 }
-                $ResponseCode=$pesa->stk_push();
-                
-                if($ResponseCode['status']==1){
+                $ResponseCode = $pesa->stk_push();
+
+                if ($ResponseCode['status'] == 1) {
                     $data = [
                         'message' => 'Please Enter your Mpesa Pin Number.',
                         'status' => "Success",
-                        'checkout_request_id'=>$ResponseCode['checkout_request_id'],
-                        'transection_id'=>$ResponseCode['transection_id'],
+                        'checkout_request_id' => $ResponseCode['checkout_request_id'],
+                        'transection_id' => $ResponseCode['transection_id'],
                         'response' => 200,
                     ];
-                
-                
-                }else{
+                } else {
                     $data = [
                         'message' => $ResponseCode['status'],
                         'status' => "failed",
                         'response' => 204,
-                    ]; 
+                    ];
                 }
             }
         }
         return $this->response->setJSON($data);
     }
-    public function mpesa_validate(){
-        
+    public function mpesa_validate()
+    {
+
 
         // $authorizationHeader  = $this->request->getHeader('Authorization');
         // if ($authorizationHeader !== null) {
@@ -487,14 +508,14 @@ class Paymentgateway extends BaseController
         // } 
         $CheckoutRequestID  = $this->request->getVar('checkout_request_id');
         $transection_id  = $this->request->getVar('transection_id');
-        
+
         $getPayData = $this->MpesaModel->first();
         // $data['tokken'] = $token;
         //  $data['CheckoutRequestID'] = $CheckoutRequestID;
         //  $data['shortCode'] = $getPayData->test_shortcode;
         //  $data['password'] = base64_encode($getPayData->test_shortcode . $getPayData->test_passkey . date('YmdHis'));
         //  print_r($data);exit;
-   
+
         // build Mpesa environment
         // initialize Mpesa Settings
         date_default_timezone_set('Africa/Nairobi');
@@ -512,10 +533,10 @@ class Paymentgateway extends BaseController
         curl_setopt($curl, CURLOPT_URL, $query_url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $queryheader); //setting custom header
         $curl_post_data = array(
-        'BusinessShortCode' => $BusinessShortCode,
-        'Password' => $Password,
-        'Timestamp' => $Timestamp,
-        'CheckoutRequestID' => $CheckoutRequestID
+            'BusinessShortCode' => $BusinessShortCode,
+            'Password' => $Password,
+            'Timestamp' => $Timestamp,
+            'CheckoutRequestID' => $CheckoutRequestID
         );
         //print_r($curl_post_data);exit;                       
         $data_string = json_encode($curl_post_data);
@@ -524,7 +545,7 @@ class Paymentgateway extends BaseController
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
         $curl_response = curl_exec($curl);
         $data_to = json_decode($curl_response);
-        $massage =$data_to;
+        $massage = $data_to;
         if (isset($data_to->ResultCode)) {
             $ResultCode = $data_to->ResultCode;
             if ($ResultCode == '1037') {
@@ -537,28 +558,28 @@ class Paymentgateway extends BaseController
                 $massage = '1';
             }
         }
-                
-        if($massage=='1'){
+
+        if ($massage == '1') {
             $data = [
                 'message' => 'Payment Successfully',
                 'status' => "Success",
                 'response' => 200,
             ];
-        
-        }else{
+        } else {
             $data = [
                 'message' => $massage,
                 'status' => "failed",
                 'response' => 204,
-            ]; 
+            ];
         }
-            
-        
+
+
         return $this->response->setJSON($data);
     }
-    
-    public function mpesa_callback(){
-       //dd('dsadasdsad');
+
+    public function mpesa_callback()
+    {
+        //dd('dsadasdsad');
         header("Content-Type: application/json");
         $stkCallbackResponse = file_get_contents('php://input');
         $data = json_decode($stkCallbackResponse);
@@ -572,31 +593,31 @@ class Paymentgateway extends BaseController
         $UserPhoneNumber = $data->Body->stkCallback->CallbackMetadata->Item[4]->Value;
         if ($ResultCode == 0) {
             $this->db      = db_connect();
-            $data=array(
-                'MerchantRequestID'=>$MerchantRequestID,
-                'CheckoutRequestID'=>$CheckoutRequestID,
-                'ResultCode'=>$ResultCode,
-                'Amount'=>$Amount,
-                'MpesaReceiptNumber'=>$TransactionId,
-                'PhoneNumber'=>$UserPhoneNumber
+            $data = array(
+                'MerchantRequestID' => $MerchantRequestID,
+                'CheckoutRequestID' => $CheckoutRequestID,
+                'ResultCode' => $ResultCode,
+                'Amount' => $Amount,
+                'MpesaReceiptNumber' => $TransactionId,
+                'PhoneNumber' => $UserPhoneNumber
             );
             $this->db->table('transactions')->insert($data);
             // $sms_settings = $this->smsModel->first();
             // $body = 'Payment Amount: '.$Amount. 'Transection id: '.$TransactionId;
             // $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,$UserPhoneNumber,$body,$sms_settings->api_key);
-            
+
             $data = [
                 'message' => 'Payment Successfully',
                 'status' => "Success",
                 'response' => 200,
             ];
             return $this->response->setJSON($data);
-        }else{
+        } else {
             $this->db      = db_connect();
-            $data=array(
-                'MerchantRequestID'=>$MerchantRequestID,
-                'CheckoutRequestID'=>$CheckoutRequestID,
-                'ResultCode'=>$ResultCode,
+            $data = array(
+                'MerchantRequestID' => $MerchantRequestID,
+                'CheckoutRequestID' => $CheckoutRequestID,
+                'ResultCode' => $ResultCode,
             );
             $this->db->table('transactions')->insert($data);
             $data = [
@@ -606,9 +627,6 @@ class Paymentgateway extends BaseController
             ];
             return $this->response->setJSON($data);
         }
-
-       
-       
     }
     public function sslCommerz()
     {
@@ -754,5 +772,4 @@ class Paymentgateway extends BaseController
         $redirectUrl = $base . '?' .  http_build_query($param);
         return redirect()->to($redirectUrl);
     }
-
 }

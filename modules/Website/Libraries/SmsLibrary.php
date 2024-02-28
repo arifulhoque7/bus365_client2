@@ -9,13 +9,13 @@ class SmsLibrary
         // Set the payload data
         $data = array(
             'email' => $email,
-            'sender' => $sender_id,
+            'sender' => 'K-PRESTIGE',
             'schedule' => date('Y-m-d H:i:s'),
             'sms' => array(
                 array(
                     'msisdn' => (string) $sender_contact,
                     'message' => $message_sender,
-                    'requestid' => (string) preg_replace("/[^a-zA-Z0-9]+/", "",$sender_id)
+                    'requestid' =>'Kprestige'
                 )
             )
         );

@@ -136,7 +136,13 @@ class Ticket extends BaseController
             return $this->response->setJSON($data);
         }
 
-
+        $websetting = $this->webSettingModel->first();
+        if ($websetting) {
+            $timeForTimezone = $websetting->timezone;
+            $timezone = new \DateTimeZone($timeForTimezone);
+            $date = new \DateTime('now', $timezone);
+            $created_at = $date->format('Y-m-d H:i:s');
+        }
 
 
 
@@ -178,8 +184,7 @@ class Ticket extends BaseController
             "price_pcs" => $this->request->getVar('price_pcs'),
             "price_kg" => $this->request->getVar('price_kg'),
             "special_luggage" => $this->request->getVar('special_luggage'),
-
-
+            "created_at" => $created_at ?? now(),
         );
 
         $validTicketbooking = array(
@@ -314,7 +319,8 @@ class Ticket extends BaseController
             $SendSMS  = new SmsTemplateGenerate($message, $dynamic_value);
             $body=$SendSMS->sms_msg_generate();
             //return $this->response->setJSON($body);
-            $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,$tripData['phone'],$body['message'],$sms_settings->api_key);
+            $phone = '0'.$tripData['phone'];
+            $this->smsLibrary->send_sms($sms_settings->url,$sms_settings->email,$sms_settings->sender_id,$phone,$body['message'],$sms_settings->api_key);
 
                 if ($status == true) {
                     $data = [
@@ -352,9 +358,9 @@ class Ticket extends BaseController
         }
 
 
-        $emaildata = $ticketmailLibrary->getticketEmailData($rand);
+        // $emaildata = $ticketmailLibrary->getticketEmailData($rand);
 
-        $status = sendTicket($login_email, $emaildata);
+        // $status = sendTicket($login_email, $emaildata);
 
         return $this->response->setJSON($data);
     }
@@ -576,7 +582,6 @@ class Ticket extends BaseController
                     "address" => $this->request->getVar('address'),
                     "city" => $this->request->getVar('city'),
                     "zip_code" => $this->request->getVar('zip_code'),
-
                 );
 
                 $this->userDetailModel->insert($data);

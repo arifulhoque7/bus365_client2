@@ -132,7 +132,13 @@ class TemporaryBook extends BaseController
 
     protected function cleanDatabase()
     {
-        $this->temporaryBookModel->where('expires_at < NOW()')->delete();
+        $websetting = $this->websettingModel->first();
+        $timeForTimezone = $websetting->timezone;
+        $timezone = new \DateTimeZone($timeForTimezone);
+        $date = new \DateTime('now', $timezone);
+        $nowtime = $date->format('Y-m-d H:i:s');
+
+        $this->temporaryBookModel->where("expires_at < '$nowtime'")->delete();
     }
 
     protected function delete(int $seatBookId)
